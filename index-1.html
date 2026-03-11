@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus — Set Up Your Company</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+  :root {
+    --teal: #0ABFA3;
+    --teal-dark: #079e87;
+    --teal-glow: rgba(10,191,163,0.18);
+    --ink: #0D1F2D;
+    --ink2: #1A3445;
+    --slate: #5A7184;
+    --paper: #F4F9F8;
+    --white: #ffffff;
+    --orange: #FF7043;
+    --border: #e2eceb;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .font-display { font-family: 'Fraunces', serif; }
+
+  /* ── Banner ── */
+  .top-banner {
+    background: linear-gradient(90deg, #0ABFA3 0%, #079e87 100%);
+    padding: 10px 24px; text-align: center;
+    font-size: 13px; font-weight: 500; color: white;
+    position: relative; overflow: hidden;
+  }
+  .top-banner::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 40px);
+  }
+  .save-pill {
+    background: white; color: var(--teal-dark);
+    font-weight: 700; font-size: 12px;
+    padding: 3px 12px; border-radius: 100px;
+    margin-left: 10px; display: inline-block;
+  }
+
+  /* ── Navbar ── */
+  .navbar {
+    position: sticky; top: 0; z-index: 999;
+    background: rgba(13,31,45,0.97);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(10,191,163,0.12);
+  }
+  .nav-link {
+    color: rgba(255,255,255,0.65); font-size: 14px; font-weight: 500;
+    padding: 6px 2px; transition: color 0.2s;
+    position: relative; text-decoration: none;
+  }
+  .nav-link:hover { color: white; }
+
+  /* ── Buttons ── */
+  .btn-teal {
+    background: var(--teal); color: var(--ink);
+    font-weight: 700; font-size: 14px;
+    padding: 10px 22px; border-radius: 10px; border: none;
+    cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+  }
+  .btn-teal:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 6px 20px var(--teal-glow); }
+
+  .btn-outline {
+    background: transparent; color: var(--teal);
+    border: 2px solid var(--teal); font-weight: 700; font-size: 14px;
+    padding: 10px 22px; border-radius: 10px; cursor: pointer;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+    text-decoration: none;
+  }
+  .btn-outline:hover { background: var(--teal); color: var(--ink); }
+
+  /* ── Hero content area ── */
+  .hero-content {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 60px 24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-content::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--teal-dark));
+  }
+  .hero-deco {
+    position: absolute; right: -60px; top: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(10,191,163,0.06), transparent 65%);
+    pointer-events: none;
+  }
+
+  /* ── Step badges ── */
+  .step-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 12px;
+    font-size: 14px; font-weight: 600;
+    border: 1.5px solid var(--border);
+    background: white;
+    transition: all 0.2s;
+  }
+  .step-badge .step-num {
+    width: 26px; height: 26px; border-radius: 8px;
+    background: rgba(10,191,163,0.10);
+    color: var(--teal); font-weight: 800; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-badge.active {
+    border-color: var(--teal);
+    background: rgba(10,191,163,0.05);
+    box-shadow: 0 0 0 3px rgba(10,191,163,0.10);
+  }
+  .step-badge.active .step-num {
+    background: var(--teal); color: var(--ink);
+  }
+  .step-badge.done .step-num {
+    background: var(--teal); color: white;
+  }
+
+  /* ── Main layout ── */
+  .main-layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .order-first-mobile { order: -1; }
+  }
+
+  /* ── Form Card ── */
+  .form-card {
+    background: white;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+  }
+  .form-card-header {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .form-card-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(10,191,163,0.10);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .form-card-icon .material-icons-round { color: var(--teal); font-size: 20px !important; }
+  .form-card-body { padding: 28px; }
+
+  /* ── Service item ── */
+  .service-item {
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex; align-items: flex-start; gap: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+  }
+  .service-item:hover { border-color: rgba(10,191,163,0.4); background: rgba(10,191,163,0.02); }
+  .service-item.selected { border-color: var(--teal); background: rgba(10,191,163,0.04); }
+  .service-item.selected .svc-check { opacity: 1; }
+  .service-item.locked { background: var(--paper); cursor: default; }
+  .service-item.locked:hover { border-color: var(--border); background: var(--paper); }
+
+  .svc-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .svc-check {
+    position: absolute; top: 16px; right: 16px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--teal); display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .svc-check .material-icons-round { font-size: 13px !important; color: white; }
+
+  .locked-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    background: rgba(255,112,67,0.10); color: var(--orange);
+    border: 1px solid rgba(255,112,67,0.25);
+    border-radius: 100px; padding: 2px 10px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+
+  /* ── Order Summary ── */
+  .summary-card {
+    background: white; border-radius: 20px;
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+    position: sticky; top: 100px;
+  }
+  .summary-header {
+    background: var(--ink); padding: 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .summary-body { padding: 24px; }
+
+  .summary-line {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 12px; padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .summary-line:last-of-type { border-bottom: none; }
+  .summary-line .label { color: var(--slate); flex: 1; }
+  .summary-line .price { font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .summary-line .free { color: var(--teal); font-weight: 700; }
+  .summary-line .strike { text-decoration: line-through; color: #aab; font-weight: 400; font-size: 12px; margin-right: 4px; }
+
+  .total-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 0 0; margin-top: 4px;
+  }
+
+  /* ── Rating badge ── */
+  .rating-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--paper); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 10px 16px; font-size: 13px;
+  }
+  .g-logo { font-weight: 800; font-size: 15px; }
+  .g-logo span:nth-child(1) { color: #4285F4; }
+  .g-logo span:nth-child(2) { color: #EA4335; }
+  .g-logo span:nth-child(3) { color: #FBBC05; }
+  .g-logo span:nth-child(4) { color: #4285F4; }
+  .g-logo span:nth-child(5) { color: #34A853; }
+  .g-logo span:nth-child(6) { color: #EA4335; }
+  .stars-gold { color: #FFB800; font-size: 13px; letter-spacing: 0.5px; }
+
+  /* ── Trust strip ── */
+  .trust-strip {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 16px;
+  }
+  .trust-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--slate);
+  }
+  .trust-chip .material-icons-round { font-size: 14px !important; color: var(--teal); }
+
+  /* ── Chat widget ── */
+  .chat-widget {
+    position: fixed; bottom: 28px; right: 28px; z-index: 200;
+    background: var(--ink); color: white;
+    border-radius: 50px; padding: 12px 20px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600;
+    box-shadow: 0 8px 32px rgba(13,31,45,0.3);
+    cursor: pointer; border: 1.5px solid rgba(10,191,163,0.3);
+    transition: all 0.2s;
+  }
+  .chat-widget:hover { background: var(--ink2); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(13,31,45,0.4); }
+  .chat-widget .material-icons-round { color: var(--teal); font-size: 20px !important; }
+  .chat-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.3)} }
+
+  /* ── Footer ── */
+  footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 48px 24px 28px; }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  footer a:hover { color: var(--teal); }
+  .foot-head { color: rgba(255,255,255,0.85); font-weight: 600; font-size: 12px; margin-bottom: 14px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .foot-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 36px 0 24px; }
+  .legal-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(255,255,255,0.33); }
+  .legal-badge .material-icons-round { font-size: 14px !important; color: var(--teal); }
+  .social-btn { width: 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; transition: all 0.2s; text-decoration: none; cursor: pointer; }
+  .social-btn:hover { background: rgba(10,191,163,0.15); border-color: var(--teal); }
+  .social-btn .material-icons-round { font-size: 17px !important; color: rgba(255,255,255,0.5); }
+  .social-btn:hover .material-icons-round { color: var(--teal); }
+
+  /* ── Animations ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .anim { animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both; }
+  .d1{animation-delay:0.05s} .d2{animation-delay:0.12s} .d3{animation-delay:0.19s} .d4{animation-delay:0.26s}
+
+  /* JS toggle */
+  .service-item { cursor: pointer; }
+</style>
+</head>
+<body>
+
+<!-- TOP BANNER -->
+<div class="top-banner relative z-10">
+  <span class="relative z-10 flex items-center justify-center flex-wrap gap-1.5">
+    <span class="material-icons-round" style="font-size:15px; vertical-align:middle">celebration</span>
+    <strong>Free Company Registration</strong> when you bundle with annual accounting.
+    Hurry — <strong>26/100</strong> slots already claimed!
+    <span class="save-pill">Save $611 now →</span>
+  </span>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="company-registration.html" class="flex items-center gap-2.5" style="text-decoration:none">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--teal)">
+        <span class="material-icons-round text-white" style="font-size:17px">business</span>
+      </div>
+      <span class="font-display text-white text-xl font-bold tracking-tight">Nexus</span>
+    </a>
+    <div class="hidden lg:flex items-center gap-8">
+      <a href="#" class="nav-link">Incorporation</a>
+      <a href="#" class="nav-link">Accounting &amp; Tax</a>
+      <a href="#" class="nav-link">Pricing</a>
+      <a href="#" class="nav-link">Resources</a>
+      <a href="#" class="nav-link">Company Info</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="#" class="hidden md:flex items-center gap-1.5 text-sm font-medium transition px-3 py-2" style="color:rgba(255,255,255,0.55); text-decoration:none">
+        <span class="material-icons-round" style="font-size:17px">phone</span>Contact Sales
+      </a>
+      <a href="#" class="text-sm font-medium transition px-3 py-2" style="color:rgba(255,255,255,0.55); text-decoration:none">Log in</a>
+      <button class="btn-teal">
+        <span class="material-icons-round" style="font-size:17px">rocket_launch</span>
+        Get started
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO CONTENT -->
+<div class="hero-content">
+  <div class="hero-deco"></div>
+  <div class="max-w-5xl mx-auto relative" style="z-index:1">
+
+    <!-- Breadcrumb -->
+    <div class="anim d1 flex items-center gap-2 text-sm mb-6" style="color:var(--slate)">
+      <a href="company-registration.html" style="color:var(--teal); text-decoration:none; font-weight:600">Plans</a>
+      <span class="material-icons-round" style="font-size:16px">chevron_right</span>
+      <span style="color:var(--ink); font-weight:600">Set up company</span>
+      <span class="material-icons-round" style="font-size:16px">chevron_right</span>
+      <span>Checkout</span>
+      <span class="material-icons-round" style="font-size:16px">chevron_right</span>
+      <span>Company details</span>
+    </div>
+
+    <!-- Heading -->
+    <div class="anim d2 mb-6">
+      <h1 class="font-display mb-2" style="font-size:clamp(28px,4vw,42px); font-weight:700; color:var(--ink)">
+        Let's set up your company together
+      </h1>
+      <p style="color:var(--slate); font-size:15px">
+        <span class="material-icons-round" style="font-size:16px; vertical-align:middle; color:var(--teal)">schedule</span>
+        Takes around 5–7 minutes to complete
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="anim d3 mb-7">
+      <p class="text-sm mb-4" style="color:var(--slate)">Follow these simple steps. We'll handle the incorporation with ASIC.</p>
+      <div class="flex flex-col gap-2.5">
+        <div class="flex items-center gap-3 text-sm font-semibold" style="color:var(--ink)">
+          <div style="width:22px; height:22px; border-radius:6px; background:var(--teal); display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <span class="material-icons-round" style="font-size:14px; color:white">check</span>
+          </div>
+          <span><strong>Choose your services</strong> <span style="color:var(--slate); font-weight:400">(mandatory services included by default)</span></span>
+        </div>
+        <div class="flex items-center gap-3 text-sm font-semibold" style="color:var(--ink)">
+          <div style="width:22px; height:22px; border-radius:6px; background:var(--teal); display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <span class="material-icons-round" style="font-size:14px; color:white">check</span>
+          </div>
+          <strong>Review and complete checkout</strong>
+        </div>
+        <div class="flex items-center gap-3 text-sm font-semibold" style="color:var(--ink)">
+          <div style="width:22px; height:22px; border-radius:6px; background:var(--teal); display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <span class="material-icons-round" style="font-size:14px; color:white">check</span>
+          </div>
+          <strong>Submit company details after payment</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action buttons + rating -->
+    <div class="anim d4 flex flex-wrap items-center gap-4">
+      <button class="btn-teal" style="padding:14px 36px; font-size:15px; border-radius:12px" onclick="document.getElementById('services-section').scrollIntoView({behavior:'smooth'})">
+        <span class="material-icons-round" style="font-size:18px">play_arrow</span>
+        Start now
+      </button>
+      <a href="#" class="btn-outline" style="padding:12px 24px; border-radius:12px; font-size:14px">
+        <span class="material-icons-round" style="font-size:17px">local_offer</span>
+        See pricing
+      </a>
+      <a href="#" class="btn-outline" style="padding:12px 24px; border-radius:12px; font-size:14px">
+        <span class="material-icons-round" style="font-size:17px">headset_mic</span>
+        Talk to an expert
+      </a>
+
+      <div class="rating-badge ml-2">
+        <span class="g-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
+        <span class="stars-gold">★★★★</span><span class="stars-gold" style="opacity:0.5">★</span>
+        <span style="color:var(--slate); font-size:13px; font-weight:600">4.8/5</span>
+        <span style="color:#aab; font-size:12px">(180+ reviews)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-layout" id="services-section">
+
+  <!-- LEFT: Service Selection -->
+  <div class="space-y-6">
+
+    <!-- Plan selected banner -->
+    <div class="flex items-center gap-3 px-5 py-4 rounded-2xl" style="background:rgba(10,191,163,0.08); border:1.5px solid rgba(10,191,163,0.25)">
+      <span class="material-icons-round" style="color:var(--teal); font-size:22px">trending_up</span>
+      <div>
+        <p class="font-semibold text-sm" style="color:var(--ink)">You've selected the <strong>Grow Plan</strong> — $2,100/yr</p>
+        <p class="text-xs mt-0.5" style="color:var(--slate)">ASIC Fees of $611 are waived. Includes all services below.</p>
+      </div>
+      <a href="company-registration.html" class="ml-auto text-xs font-semibold flex items-center gap-1" style="color:var(--teal); text-decoration:none; white-space:nowrap">
+        <span class="material-icons-round" style="font-size:15px">swap_horiz</span>Change plan
+      </a>
+    </div>
+
+    <!-- Mandatory Services -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="form-card-icon">
+          <span class="material-icons-round">lock</span>
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-lg" style="color:var(--ink)">Mandatory Services</h3>
+          <p class="text-xs mt-0.5" style="color:var(--slate)">These are included by default with every plan</p>
+        </div>
+        <div class="ml-auto">
+          <span style="background:rgba(10,191,163,0.10); color:var(--teal); border:1px solid rgba(10,191,163,0.25); border-radius:8px; padding:4px 12px; font-size:12px; font-weight:700">3 included</span>
+        </div>
+      </div>
+      <div class="form-card-body space-y-3">
+
+        <div class="service-item locked selected">
+          <div class="svc-icon" style="background:rgba(10,191,163,0.10)">
+            <span class="material-icons-round" style="color:var(--teal); font-size:20px">domain</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">Company Registration</p>
+              <span class="locked-badge"><span class="material-icons-round" style="font-size:11px">lock</span>Mandatory</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">Standard Pty Ltd registration with ASIC, including all mandatory company documents.</p>
+          </div>
+          <div class="svc-check" style="opacity:1; background:var(--teal)">
+            <span class="material-icons-round" style="font-size:13px; color:white">check</span>
+          </div>
+        </div>
+
+        <div class="service-item locked selected">
+          <div class="svc-icon" style="background:rgba(59,130,246,0.10)">
+            <span class="material-icons-round" style="color:#3b82f6; font-size:20px">receipt_long</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">ABN, GST, PAYG &amp; TFN Registrations</p>
+              <span class="locked-badge"><span class="material-icons-round" style="font-size:11px">lock</span>Mandatory</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">All mandatory tax registrations for your new company, handled end-to-end.</p>
+          </div>
+          <div class="svc-check" style="opacity:1">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+        <div class="service-item locked selected">
+          <div class="svc-icon" style="background:rgba(139,92,246,0.10)">
+            <span class="material-icons-round" style="color:#8b5cf6; font-size:20px">verified_user</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">ASIC Annual Compliance Package</p>
+              <span class="locked-badge"><span class="material-icons-round" style="font-size:11px">lock</span>Mandatory</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">Yearly ASIC compliance management with a dedicated senior ASIC agent and 24/7 document access.</p>
+          </div>
+          <div class="svc-check" style="opacity:1">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Optional Services -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="form-card-icon">
+          <span class="material-icons-round">add_circle</span>
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-lg" style="color:var(--ink)">Optional Add-ons</h3>
+          <p class="text-xs mt-0.5" style="color:var(--slate)">Enhance your package with additional services</p>
+        </div>
+      </div>
+      <div class="form-card-body space-y-3">
+
+        <div class="service-item selected" onclick="toggleService(this)">
+          <div class="svc-icon" style="background:rgba(10,191,163,0.10)">
+            <span class="material-icons-round" style="color:var(--teal); font-size:20px">manage_accounts</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">Dedicated Accountant</p>
+              <span class="text-sm font-bold" style="color:var(--teal)">Included</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">A personal accountant dedicated to your company's financial health and compliance needs.</p>
+          </div>
+          <div class="svc-check">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+        <div class="service-item selected" onclick="toggleService(this)">
+          <div class="svc-icon" style="background:rgba(20,184,166,0.10)">
+            <span class="material-icons-round" style="color:#14b8a6; font-size:20px">book</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">Monthly Bookkeeping</p>
+              <span class="text-sm font-bold" style="color:var(--teal)">Included</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">Monthly bookkeeping handled timely, keeping your financials accurate and up to date.</p>
+          </div>
+          <div class="svc-check">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+        <div class="service-item selected" onclick="toggleService(this)">
+          <div class="svc-icon" style="background:rgba(251,191,36,0.10)">
+            <span class="material-icons-round" style="color:#f59e0b; font-size:20px">assignment</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">Quarterly/Annual BAS &amp; IAS</p>
+              <span class="text-sm font-bold" style="color:var(--teal)">Included</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">Business Activity Statements and Instalment Activity Statements lodged accurately and on time.</p>
+          </div>
+          <div class="svc-check">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+        <div class="service-item selected" onclick="toggleService(this)">
+          <div class="svc-icon" style="background:rgba(59,130,246,0.10)">
+            <span class="material-icons-round" style="color:#3b82f6; font-size:20px">integration_instructions</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">Xero &amp; Dext Subscriptions</p>
+              <span class="text-sm font-bold" style="color:var(--teal)">Included</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">Full access to Xero accounting and Dext receipt capture — the best accounting stack for growing businesses.</p>
+          </div>
+          <div class="svc-check">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+        <div class="service-item selected" onclick="toggleService(this)">
+          <div class="svc-icon" style="background:rgba(236,72,153,0.10)">
+            <span class="material-icons-round" style="color:#ec4899; font-size:20px">description</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">Tax Return Preparation &amp; Filing</p>
+              <span class="text-sm font-bold" style="color:var(--teal)">Included</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">End-of-year tax return prepared and lodged with the ATO on your behalf by a registered tax agent.</p>
+          </div>
+          <div class="svc-check">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+        <!-- Extra add-on (paid) -->
+        <div class="service-item" onclick="toggleService(this)" style="border-style:dashed">
+          <div class="svc-icon" style="background:rgba(255,112,67,0.10)">
+            <span class="material-icons-round" style="color:var(--orange); font-size:20px">location_on</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">Registered Address</p>
+              <span class="text-sm font-bold" style="color:var(--orange)">+ $300/yr</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">ASIC compliant registered address — upgrade to Scale for this feature plus Digital Mailroom.</p>
+          </div>
+          <div class="svc-check">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+        <div class="service-item" onclick="toggleService(this)" style="border-style:dashed">
+          <div class="svc-icon" style="background:rgba(139,92,246,0.10)">
+            <span class="material-icons-round" style="color:#8b5cf6; font-size:20px">mark_email_unread</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <p class="font-semibold text-sm" style="color:var(--ink)">Secure Digital Mailroom</p>
+              <span class="text-sm font-bold" style="color:var(--orange)">+ $0 with Scale</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--slate)">24/7 access to all company mail digitised and stored securely online.</p>
+          </div>
+          <div class="svc-check">
+            <span class="material-icons-round">check</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Trust strip -->
+    <div class="trust-strip">
+      <div class="trust-chip"><span class="material-icons-round">security</span>256-bit SSL secured</div>
+      <div class="trust-chip"><span class="material-icons-round">replay</span>30-day money-back</div>
+      <div class="trust-chip"><span class="material-icons-round">verified_user</span>ASIC registered agent</div>
+      <div class="trust-chip"><span class="material-icons-round">support_agent</span>Unlimited support</div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Order Summary -->
+  <div>
+    <div class="summary-card">
+      <div class="summary-header">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Order Summary</p>
+          <p class="font-display text-white font-bold text-xl mt-0.5">Grow Plan</p>
+        </div>
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(10,191,163,0.15); border:1px solid rgba(10,191,163,0.3)">
+          <span class="material-icons-round" style="color:var(--teal); font-size:20px">trending_up</span>
+        </div>
+      </div>
+
+      <div class="summary-body">
+
+        <!-- Line items -->
+        <div class="summary-line">
+          <span class="label flex items-center gap-1.5">
+            <span class="material-icons-round" style="font-size:15px; color:var(--teal)">domain</span>
+            Company Registration
+          </span>
+          <span class="price">Included</span>
+        </div>
+
+        <div class="summary-line">
+          <span class="label flex items-center gap-1.5">
+            <span class="material-icons-round" style="font-size:15px; color:var(--teal)">receipt_long</span>
+            ABN, GST, PAYG &amp; TFN
+          </span>
+          <span class="price">Included</span>
+        </div>
+
+        <div class="summary-line">
+          <span class="label flex items-center gap-1.5">
+            <span class="material-icons-round" style="font-size:15px; color:var(--teal)">manage_accounts</span>
+            Dedicated Accountant
+          </span>
+          <span class="price">Included</span>
+        </div>
+
+        <div class="summary-line">
+          <span class="label flex items-center gap-1.5">
+            <span class="material-icons-round" style="font-size:15px; color:var(--teal)">book</span>
+            Monthly Bookkeeping
+          </span>
+          <span class="price">Included</span>
+        </div>
+
+        <div class="summary-line">
+          <span class="label flex items-center gap-1.5">
+            <span class="material-icons-round" style="font-size:15px; color:var(--teal)">assignment</span>
+            BAS / IAS Lodgement
+          </span>
+          <span class="price">Included</span>
+        </div>
+
+        <div class="summary-line">
+          <span class="label flex items-center gap-1.5">
+            <span class="material-icons-round" style="font-size:15px; color:var(--teal)">integration_instructions</span>
+            Xero &amp; Dext
+          </span>
+          <span class="price">Included</span>
+        </div>
+
+        <div class="summary-line">
+          <span class="label flex items-center gap-1.5">
+            <span class="material-icons-round" style="font-size:15px; color:var(--teal)">description</span>
+            Tax Return Filing
+          </span>
+          <span class="price">Included</span>
+        </div>
+
+        <!-- ASIC savings -->
+        <div class="summary-line" style="background:rgba(10,191,163,0.04); margin:0 -8px; padding:12px 8px; border-radius:10px; border-color:rgba(10,191,163,0.2)">
+          <span class="label flex items-center gap-1.5" style="color:var(--ink); font-weight:600">
+            <span class="material-icons-round" style="font-size:15px; color:var(--teal)">savings</span>
+            ASIC Fees (waived)
+          </span>
+          <span>
+            <span class="strike">$611</span>
+            <span class="free">FREE</span>
+          </span>
+        </div>
+
+        <!-- Subtotal -->
+        <div class="total-row">
+          <div>
+            <p class="text-xs mb-1" style="color:var(--slate)">Annual total (GST incl.)</p>
+            <p class="font-display font-bold" style="font-size:36px; color:var(--ink); line-height:1">$2,100</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs mb-1" style="color:var(--slate)">Per month</p>
+            <p class="font-semibold" style="color:var(--ink)">~$175/mo</p>
+          </div>
+        </div>
+
+        <button class="btn-teal w-full justify-center mt-5" style="padding:15px; font-size:15px; border-radius:14px; font-weight:700">
+          <span class="material-icons-round" style="font-size:19px">arrow_forward</span>
+          Proceed to Checkout
+        </button>
+
+        <p class="text-center text-xs mt-3 flex items-center justify-center gap-1" style="color:var(--slate)">
+          <span class="material-icons-round" style="font-size:15px; color:var(--teal)">lock</span>
+          Secure checkout · SSL encrypted
+        </p>
+
+        <!-- Promo code -->
+        <div class="mt-5 flex gap-2">
+          <input type="text" placeholder="Promo code" class="flex-1 px-4 py-2.5 rounded-xl text-sm border focus:outline-none focus:border-teal-400" style="border:1.5px solid var(--border); font-family:inherit; color:var(--ink)">
+          <button class="btn-outline" style="padding:10px 16px; border-radius:10px; font-size:13px; white-space:nowrap">Apply</button>
+        </div>
+
+        <!-- Mini trust badges -->
+        <div class="mt-5 pt-5" style="border-top:1px solid var(--border)">
+          <div class="flex items-center justify-center gap-5">
+            <div class="text-center">
+              <span class="material-icons-round" style="color:var(--teal); font-size:22px; display:block">verified</span>
+              <p class="text-xs mt-1" style="color:var(--slate)">ASIC Agent</p>
+            </div>
+            <div class="text-center">
+              <span class="material-icons-round" style="color:var(--teal); font-size:22px; display:block">security</span>
+              <p class="text-xs mt-1" style="color:var(--slate)">ISO 27001</p>
+            </div>
+            <div class="text-center">
+              <span class="material-icons-round" style="color:var(--teal); font-size:22px; display:block">replay</span>
+              <p class="text-xs mt-1" style="color:var(--slate)">30-day back</p>
+            </div>
+            <div class="text-center">
+              <span class="material-icons-round" style="color:var(--teal); font-size:22px; display:block">support_agent</span>
+              <p class="text-xs mt-1" style="color:var(--slate)">24/7 support</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-10 mb-8">
+      <div class="col-span-2">
+        <div class="flex items-center gap-2.5 mb-4">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--teal)">
+            <span class="material-icons-round text-white" style="font-size:17px">business</span>
+          </div>
+          <span class="font-display text-white text-xl font-bold">Nexus</span>
+        </div>
+        <p class="text-sm leading-relaxed max-w-xs" style="color:rgba(255,255,255,0.38)">By founders, for fellow founders. Optimise with Nexus, and reap the benefits of digitalisation.</p>
+        <div class="flex gap-2 mt-5">
+          <a href="#" class="social-btn"><span class="material-icons-round">link</span></a>
+          <a href="#" class="social-btn"><span class="material-icons-round">groups</span></a>
+          <a href="#" class="social-btn"><span class="material-icons-round">play_circle</span></a>
+          <a href="#" class="social-btn"><span class="material-icons-round">photo_camera</span></a>
+        </div>
+      </div>
+      <div>
+        <p class="foot-head">Start a Business</p>
+        <ul class="space-y-2.5">
+          <li><a href="#">Register a Company</a></li>
+          <li><a href="#">Expanding into Australia</a></li>
+          <li><a href="#">ASIC Agent</a></li>
+          <li><a href="#">Virtual Office</a></li>
+          <li><a href="#">Discretionary Trust</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-head">Tax &amp; Accounting</p>
+        <ul class="space-y-2.5">
+          <li><a href="#">Accountant Services</a></li>
+          <li><a href="#">Sole Trader</a></li>
+          <li><a href="#">Freelancers</a></li>
+          <li><a href="#">Startups</a></li>
+          <li><a href="#">SMEs</a></li>
+          <li><a href="#">Ecommerce</a></li>
+          <li><a href="#">Payroll Services</a></li>
+          <li><a href="#">Bookkeeping</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-head">Resources</p>
+        <ul class="space-y-2.5 mb-5"><li><a href="#">Blog</a></li></ul>
+        <p class="foot-head">Legal</p>
+        <ul class="space-y-2.5">
+          <li><a href="#">Terms &amp; Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Security Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-head">Company</p>
+        <ul class="space-y-2.5">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Partnerships</a></li>
+          <li><a href="#">Affiliate Partners</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-divider"></div>
+    <div class="flex flex-wrap justify-center gap-6 mb-5">
+      <span class="legal-badge"><span class="material-icons-round">check_circle</span>ACN 652 594 397</span>
+      <span class="legal-badge"><span class="material-icons-round">check_circle</span>ABN 49 652 594 397</span>
+      <span class="legal-badge"><span class="material-icons-round">check_circle</span>TPB Agent 26131380</span>
+      <span class="legal-badge"><span class="material-icons-round">check_circle</span>ASIC Reg Agent 47659</span>
+    </div>
+    <div class="flex flex-wrap justify-center gap-5 mb-5">
+      <a href="#" style="color:rgba(255,255,255,0.3); font-size:12px">Data Protection &amp; Privacy Policy</a>
+      <a href="#" style="color:rgba(255,255,255,0.3); font-size:12px">Terms &amp; Conditions</a>
+      <a href="#" style="color:rgba(255,255,255,0.3); font-size:12px">Promotion Terms</a>
+      <a href="#" style="color:rgba(255,255,255,0.3); font-size:12px">Service Status</a>
+    </div>
+    <p class="text-center text-xs" style="color:rgba(255,255,255,0.18)">© 2026 Nexus acknowledges Australia's First Nations Peoples as the Traditional Owners and Custodians of the land. ISO/IEC 27001:2022 certified.</p>
+  </div>
+</footer>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget">
+  <div class="chat-dot"></div>
+  <span class="material-icons-round">chat</span>
+  Chat with a real person
+</div>
+
+<script>
+  function toggleService(el) {
+    if (el.classList.contains('locked')) return;
+    el.classList.toggle('selected');
+    const check = el.querySelector('.svc-check');
+    if (check) check.style.opacity = el.classList.contains('selected') ? '1' : '0';
+  }
+</script>
+
+</body>
+</html>

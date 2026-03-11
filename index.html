@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus — Company Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            --teal: #0ABFA3;
+            --teal-dark: #079e87;
+            --teal-glow: rgba(10, 191, 163, 0.18);
+            --ink: #0D1F2D;
+            --ink2: #1A3445;
+            --slate: #5A7184;
+            --paper: #F4F9F8;
+            --white: #ffffff;
+            --orange: #FF7043;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--white);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-display {
+            font-family: 'Fraunces', serif;
+        }
+
+        /* Banner */
+        .top-banner {
+            background: linear-gradient(90deg, #0ABFA3 0%, #079e87 100%);
+            padding: 10px 24px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0px, rgba(255, 255, 255, 0.04) 1px, transparent 1px, transparent 40px);
+        }
+
+        .save-pill {
+            background: white;
+            color: var(--teal-dark);
+            font-weight: 700;
+            font-size: 12px;
+            padding: 3px 12px;
+            border-radius: 100px;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: rgba(13, 31, 45, 0.97);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(10, 191, 163, 0.12);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 6px 2px;
+            transition: color 0.2s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--teal);
+            transform: scaleX(0);
+            border-radius: 2px;
+            transition: transform 0.2s;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .btn-teal {
+            background: var(--teal);
+            color: var(--ink);
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 22px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-teal:hover {
+            background: var(--teal-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px var(--teal-glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--teal);
+            border: 2px solid var(--teal);
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-outline:hover {
+            background: var(--teal);
+            color: var(--ink);
+            transform: translateY(-1px);
+        }
+
+        /* Hero */
+        .hero {
+            background: var(--ink);
+            position: relative;
+            overflow: hidden;
+            padding: 96px 24px 80px;
+        }
+
+        .hero-orb1 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(10, 191, 163, 0.14) 0%, transparent 65%);
+            top: -150px;
+            right: -100px;
+            pointer-events: none;
+        }
+
+        .hero-orb2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 112, 67, 0.07) 0%, transparent 65%);
+            bottom: -100px;
+            left: -80px;
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(10, 191, 163, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 191, 163, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(10, 191, 163, 0.12);
+            color: var(--teal);
+            border: 1px solid rgba(10, 191, 163, 0.25);
+            border-radius: 100px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .badge-pill .material-icons-round {
+            font-size: 14px !important;
+        }
+
+        .trust-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 13.5px;
+        }
+
+        .trust-item .material-icons-round {
+            font-size: 18px !important;
+            color: var(--teal);
+        }
+
+        .service-select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            color: white;
+            border-radius: 12px;
+            padding: 12px 40px 12px 16px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='%230ABFA3'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .service-select:focus {
+            outline: none;
+            border-color: var(--teal);
+        }
+
+        .service-select option {
+            background: #1A3445;
+            color: white;
+        }
+
+        /* Pricing */
+        .pricing-section {
+            background: var(--paper);
+            padding: 80px 24px;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 20px;
+            padding: 36px 32px;
+            border: 1.5px solid #e5eef0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+            position: relative;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 64px rgba(13, 31, 45, 0.10);
+            border-color: rgba(10, 191, 163, 0.3);
+        }
+
+        .plan-card.featured {
+            background: var(--ink);
+            border: 2px solid var(--teal);
+            box-shadow: 0 20px 60px rgba(10, 191, 163, 0.22);
+        }
+
+        .plan-card.featured:hover {
+            box-shadow: 0 32px 80px rgba(10, 191, 163, 0.3);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--teal);
+            color: var(--ink);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 16px;
+            border-radius: 100px;
+            white-space: nowrap;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .plan-price {
+            font-family: 'Fraunces', serif;
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .check-ic {
+            color: var(--teal);
+            font-size: 18px !important;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.07);
+            margin: 20px 0;
+        }
+
+        .divider-dk {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 20px 0;
+        }
+
+        /* Stats */
+        .stats-bar {
+            background: white;
+            border-top: 1px solid #e8f0ee;
+            border-bottom: 1px solid #e8f0ee;
+            padding: 28px 24px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            background: rgba(10, 191, 163, 0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-icon .material-icons-round {
+            color: var(--teal);
+            font-size: 22px !important;
+        }
+
+        .stat-num {
+            font-family: 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.1;
+        }
+
+        .stat-lbl {
+            font-size: 12px;
+            color: var(--slate);
+            margin-top: 2px;
+        }
+
+        /* CTA */
+        .cta-band {
+            background: var(--ink2);
+            padding: 64px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            right: -120px;
+            top: -120px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(10, 191, 163, 0.12), transparent 65%);
+        }
+
+        .cta-band::after {
+            content: '';
+            position: absolute;
+            left: -80px;
+            bottom: -80px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 112, 67, 0.08), transparent 65%);
+        }
+
+        /* Testimonials */
+        .testi-section {
+            padding: 80px 24px;
+            background: white;
+        }
+
+        .testi-card {
+            background: var(--paper);
+            border-radius: 18px;
+            padding: 28px;
+            border: 1.5px solid transparent;
+            transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+        }
+
+        .testi-card:hover {
+            box-shadow: 0 12px 40px rgba(10, 191, 163, 0.10);
+            border-color: rgba(10, 191, 163, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-family: 'Fraunces', serif;
+        }
+
+        .stars {
+            color: #FFB800;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--ink);
+            color: rgba(255, 255, 255, 0.45);
+            padding: 64px 24px 32px;
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 0.45);
+            text-decoration: none;
+            font-size: 13.5px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--teal);
+        }
+
+        .foot-head {
+            color: rgba(255, 255, 255, 0.88);
+            font-weight: 600;
+            font-size: 12px;
+            margin-bottom: 16px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .foot-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 40px 0 28px;
+        }
+
+        .legal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .legal-badge .material-icons-round {
+            font-size: 15px !important;
+            color: var(--teal);
+        }
+
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: rgba(10, 191, 163, 0.15);
+            border-color: var(--teal);
+        }
+
+        .social-btn .material-icons-round {
+            font-size: 18px !important;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .social-btn:hover .material-icons-round {
+            color: var(--teal);
+        }
+
+        /* Compare */
+        .compare-link {
+            color: var(--teal);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .compare-link:hover {
+            text-decoration: underline;
+        }
+
+        .compare-link .material-icons-round {
+            font-size: 17px !important;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .anim {
+            animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .d1 {
+            animation-delay: 0.05s;
+        }
+
+        .d2 {
+            animation-delay: 0.15s;
+        }
+
+        .d3 {
+            animation-delay: 0.25s;
+        }
+
+        .d4 {
+            animation-delay: 0.35s;
+        }
+
+        .d5 {
+            animation-delay: 0.45s;
+        }
+
+        @media (max-width: 768px) {
+            .plan-price {
+                font-size: 40px;
+            }
+
+            .hero {
+                padding: 64px 16px 48px;
+            }
+
+            .plan-card {
+                padding: 28px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BANNER -->
+    <div class="top-banner relative z-10">
+        <span class="relative z-10 flex items-center justify-center flex-wrap gap-2">
+            <span class="material-icons-round" style="font-size:16px; vertical-align:middle">celebration</span>
+            <strong>Free Company Registration</strong> when you bundle with annual accounting.
+            Hurry — <strong>26/100</strong> slots already claimed!
+            <span class="save-pill">Save $611 now →</span>
+        </span>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5" style="text-decoration:none">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--teal)">
+                    <span class="material-icons-round text-white" style="font-size:17px">business</span>
+                </div>
+                <span class="font-display text-white text-xl font-bold tracking-tight">Nexus</span>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="#" class="nav-link">Incorporation</a>
+                <a href="#" class="nav-link">Accounting &amp; Tax</a>
+                <a href="#" class="nav-link">Pricing</a>
+                <a href="#" class="nav-link">Resources</a>
+                <a href="#" class="nav-link">Company Info</a>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a href="#" class="hidden md:flex items-center gap-1.5 text-sm font-medium transition px-3 py-2"
+                    style="color:rgba(255,255,255,0.55); text-decoration:none">
+                    <span class="material-icons-round" style="font-size:17px">phone</span>Contact Sales
+                </a>
+                <a href="#" class="text-sm font-medium transition px-3 py-2"
+                    style="color:rgba(255,255,255,0.55); text-decoration:none">Log in</a>
+                <button class="btn-teal">
+                    <span class="material-icons-round" style="font-size:17px">rocket_launch</span>
+                    Get started
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-orb1"></div>
+        <div class="hero-orb2"></div>
+        <div class="max-w-3xl mx-auto text-center relative" style="z-index:1">
+
+            <div class="anim d1 flex justify-center mb-6">
+                <div class="badge-pill">
+                    <span class="material-icons-round">verified</span>
+                    Australia's #1 Company Registration Platform
+                </div>
+            </div>
+
+            <h1 class="anim d2 font-display text-white leading-tight mb-5"
+                style="font-size:clamp(38px,6vw,70px); font-weight:700">
+                Register Your<br>
+                <span style="color:var(--teal)">Company</span> Today
+            </h1>
+
+            <p class="anim d3 leading-relaxed mb-10 mx-auto max-w-xl"
+                style="color:rgba(255,255,255,0.55); font-size:17px">
+                Affordable incorporation packages with everything you need to crush your first year in business —
+                online, fast, and with zero hidden fees.
+            </p>
+
+            <div class="anim d4 trust-row mb-10">
+                <div class="trust-item"><span class="material-icons-round">schedule</span>Register in minutes</div>
+                <div class="trust-item"><span class="material-icons-round">visibility_off</span>No hidden fees</div>
+                <div class="trust-item"><span class="material-icons-round">support_agent</span>Unlimited support</div>
+                <div class="trust-item"><span class="material-icons-round">replay</span>30-day money-back</div>
+            </div>
+
+            <div class="anim d5 flex items-center justify-center gap-4 flex-wrap">
+                <span class="flex items-center gap-1.5 text-sm font-medium" style="color:rgba(255,255,255,0.45)">
+                    <span class="material-icons-round" style="font-size:17px; color:var(--teal)">tune</span>
+                    Select required service
+                </span>
+                <select class="service-select">
+                    <option>Company registration</option>
+                    <option>Sole trader setup</option>
+                    <option>Trust formation</option>
+                    <option>Partnership formation</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing-section" id="pricing">
+        <div class="max-w-6xl mx-auto">
+
+            <div class="text-center mb-14">
+                <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--teal)">Transparent
+                    Pricing</p>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4" style="color:var(--ink)">Choose your plan
+                </h2>
+                <p class="max-w-md mx-auto text-[15px]" style="color:var(--slate)">Start small or go all-in. Every plan
+                    includes ASIC compliance and a dedicated agent.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 items-start">
+
+                <!-- LAUNCH -->
+                <div class="plan-card">
+                    <div class="flex items-center gap-2.5 mb-3">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+                            style="background:rgba(10,191,163,0.10)">
+                            <span class="material-icons-round"
+                                style="color:var(--teal); font-size:22px">rocket_launch</span>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold" style="color:var(--ink)">Launch</h3>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-5" style="color:var(--slate)">Perfect for entrepreneurs looking
+                        to quickly register a company and <strong style="color:var(--ink)">ensure basic
+                            compliance</strong> in the first year.</p>
+
+                    <div class="flex items-end gap-1.5 mb-1">
+                        <span class="plan-price" style="color:var(--ink)">$300</span>
+                        <span class="text-sm pb-2" style="color:#aab">/ yr <small>(GST incl.)</small></span>
+                    </div>
+                    <p class="text-xs flex items-center gap-1 mb-6" style="color:#aab">
+                        <span class="material-icons-round" style="font-size:14px; color:var(--slate)">info</span>
+                        ASIC Fees $611 additional
+                    </p>
+
+                    <a href="index-2.html"
+                        class="btn-outline w-full justify-center py-3 rounded-xl text-sm mb-7 inline-flex items-center">
+                        <span class="material-icons-round" style="font-size:17px">shopping_cart</span> Buy now
+                    </a>
+
+                    <div class="divider"></div>
+                    <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:#aab">Covers the basics</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2.5 text-sm" style="color:var(--slate)"><span
+                                class="material-icons-round check-ic">check_circle</span>Standard Pty Ltd registration
+                        </li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:var(--slate)"><span
+                                class="material-icons-round check-ic">check_circle</span>ABN, GST, PAYG, TFN
+                            registrations</li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:var(--slate)"><span
+                                class="material-icons-round check-ic">check_circle</span>All mandatory 8 company
+                            documents</li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:var(--slate)"><span
+                                class="material-icons-round check-ic">check_circle</span>Dedicated senior ASIC agent
+                            support</li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:var(--slate)"><span
+                                class="material-icons-round check-ic">check_circle</span>24/7 access to all your
+                            documents</li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:var(--slate)"><span
+                                class="material-icons-round check-ic">check_circle</span>Yearly ASIC compliance
+                            subscription</li>
+                    </ul>
+                </div>
+
+                <!-- GROW (featured) -->
+                <div class="plan-card featured">
+                    <div class="plan-badge">⭐ Most Popular — Free Registration</div>
+
+                    <div class="flex items-center gap-2.5 mb-3 mt-2">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+                            style="background:rgba(10,191,163,0.15)">
+                            <span class="material-icons-round"
+                                style="color:var(--teal); font-size:22px">trending_up</span>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold text-white">Grow</h3>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-5" style="color:rgba(255,255,255,0.55)">Ideal for <strong
+                            class="text-white">fast growth businesses</strong>, looking to gain peace of mind on their
+                        entire back office and get insights to grow.</p>
+
+                    <div class="flex items-end gap-1.5 mb-1">
+                        <span class="plan-price text-white">$2,100</span>
+                        <span class="text-sm pb-2" style="color:rgba(255,255,255,0.35)">/ yr <small>(GST
+                                incl.)</small></span>
+                    </div>
+                    <p class="text-xs flex items-center gap-1 mb-6" style="color:var(--teal)">
+                        <span class="material-icons-round" style="font-size:14px">celebration</span>
+                        ASIC Fees $611 waived
+                    </p>
+
+                    <a href="index-2.html"
+                        class="btn-teal w-full justify-center py-3 rounded-xl text-sm mb-7 inline-flex items-center">
+                        <span class="material-icons-round" style="font-size:17px">shopping_cart</span> Buy now
+                    </a>
+
+                    <div class="divider-dk"></div>
+                    <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:rgba(255,255,255,0.3)">
+                        Everything in Launch, plus:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2.5 text-sm" style="color:rgba(255,255,255,0.7)"><span
+                                class="material-icons-round check-ic">check_circle</span>A dedicated accountant for your
+                            company</li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:rgba(255,255,255,0.7)"><span
+                                class="material-icons-round check-ic">check_circle</span>Monthly bookkeeping done timely
+                        </li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:rgba(255,255,255,0.7)"><span
+                                class="material-icons-round check-ic">check_circle</span>Quarterly / Annual BAS / IAS
+                        </li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:rgba(255,255,255,0.7)"><span
+                                class="material-icons-round check-ic">check_circle</span>Full Xero &amp; Dext
+                            subscriptions</li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:rgba(255,255,255,0.7)"><span
+                                class="material-icons-round check-ic">check_circle</span>Tax return preparation &amp;
+                            filing</li>
+                    </ul>
+                </div>
+
+                <!-- SCALE -->
+                <div class="plan-card">
+                    <div class="absolute top-5 right-5">
+                        <span class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full"
+                            style="background:rgba(255,112,67,0.10); color:var(--orange); border:1px solid rgba(255,112,67,0.25)">
+                            <span class="material-icons-round" style="font-size:13px">chat</span>Chat with a person
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-2.5 mb-3">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+                            style="background:rgba(10,191,163,0.10)">
+                            <span class="material-icons-round"
+                                style="color:var(--teal); font-size:22px">corporate_fare</span>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold" style="color:var(--ink)">Scale</h3>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-5" style="color:var(--slate)">Ideal for founders who want an
+                        <strong style="color:var(--ink)">end-to-end solution</strong> to incorporate and stay fully
+                        compliant from day one.</p>
+
+                    <div class="flex items-end gap-1.5 mb-1">
+                        <span class="plan-price" style="color:var(--ink)">$2,400</span>
+                        <span class="text-sm pb-2" style="color:#aab">/ yr <small>(GST incl.)</small></span>
+                    </div>
+                    <p class="text-xs flex items-center gap-1 mb-6" style="color:var(--teal)">
+                        <span class="material-icons-round" style="font-size:14px">celebration</span>
+                        ASIC Fees $611 waived
+                    </p>
+
+                    <a href="index-2.html"
+                        class="btn-outline w-full justify-center py-3 rounded-xl text-sm mb-7 inline-flex items-center">
+                        <span class="material-icons-round" style="font-size:17px">shopping_cart</span> Buy now
+                    </a>
+                    <div class="divider"></div>
+                    <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:#aab">Everything in Grow,
+                        plus:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2.5 text-sm" style="color:var(--slate)"><span
+                                class="material-icons-round check-ic">check_circle</span>ASIC compliant Registered
+                            Address</li>
+                        <li class="flex items-start gap-2.5 text-sm" style="color:var(--slate)"><span
+                                class="material-icons-round check-ic">check_circle</span>Secure Digital Mailroom with
+                            24/7 access</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="#" class="compare-link">
+                    <span class="material-icons-round">compare_arrows</span>
+                    Compare all plan features
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="stat-item">
+                <div class="stat-icon"><span class="material-icons-round">business</span></div>
+                <div>
+                    <div class="stat-num">10,000+</div>
+                    <div class="stat-lbl">Companies registered</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><span class="material-icons-round">star</span></div>
+                <div>
+                    <div class="stat-num">4.9 / 5</div>
+                    <div class="stat-lbl">Average customer rating</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><span class="material-icons-round">replay</span></div>
+                <div>
+                    <div class="stat-num">30-day</div>
+                    <div class="stat-lbl">Money-back guarantee</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><span class="material-icons-round">support_agent</span></div>
+                <div>
+                    <div class="stat-num">24 / 7</div>
+                    <div class="stat-lbl">Dedicated support</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA BAND -->
+    <section class="cta-band">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8"
+            style="position:relative; z-index:1">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--teal)">Free Consultation
+                </p>
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-2">Need more information<br>before
+                    choosing?</h2>
+                <p class="text-sm" style="color:rgba(255,255,255,0.45)">Talk to one of our experts. No pressure, no
+                    commitment.</p>
+            </div>
+            <button class="btn-teal flex-shrink-0" style="padding:16px 40px; font-size:15px; border-radius:14px">
+                <span class="material-icons-round">phone_in_talk</span>
+                Book a call
+            </button>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testi-section">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-14">
+                <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:var(--teal)">Social Proof</p>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-3" style="color:var(--ink)">Loved by
+                    entrepreneurs<br>across the world</h2>
+                <p class="text-sm" style="color:var(--slate)">Real reviews from real business founders.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+
+                <div class="testi-card">
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="text-sm leading-relaxed mb-6" style="color:var(--slate)">"I highly recommend Nexus to
+                        anyone! They guided us through ASIC's complexities, ensuring seamless compliance with remarkable
+                        attention to detail."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="avatar text-white" style="background:linear-gradient(135deg,#0ABFA3,#079e87)">N
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm" style="color:var(--ink)">Nathaniel Scholar</p>
+                            <p class="text-xs" style="color:var(--slate)">Director, Alpha Ambitions Pty Ltd</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="text-sm leading-relaxed mb-6" style="color:var(--slate)">"Their all-in-one solution allows
+                        me to focus on growing my business. Every aspect of my business needs is expertly managed and
+                        gives me peace of mind."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="avatar text-white" style="background:linear-gradient(135deg,#FF7043,#d4341a)">S
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm" style="color:var(--ink)">Siobhan Macdonald</p>
+                            <p class="text-xs" style="color:var(--slate)">CEO, Premium-diagnostics Pty Ltd</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="text-sm leading-relaxed mb-6" style="color:var(--slate)">"Exceptional service delivery,
+                        excellent customer relations and high professionalism. I am so pleased with the service from the
+                        admin team."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="avatar text-white" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">A
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm" style="color:var(--ink)">Alberto Fascetti</p>
+                            <p class="text-xs" style="color:var(--slate)">Owner, FastVisa Australia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="text-sm leading-relaxed mb-6" style="color:var(--slate)">"Their pricing was transparent
+                        and affordable for a small business like me. Everything is reconciled when it should be and they
+                        are fantastic to deal with."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="avatar text-white" style="background:linear-gradient(135deg,#8b5cf6,#5b21b6)">A
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm" style="color:var(--ink)">Aiden Van Nielen</p>
+                            <p class="text-xs" style="color:var(--slate)">Founder, Nielen Video Production</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="text-sm leading-relaxed mb-6" style="color:var(--slate)">"If you need help setting up a
+                        company in Australia and beyond, the professionals at Nexus will be one of the great ones to go
+                        to for your business."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="avatar text-white" style="background:linear-gradient(135deg,#ec4899,#9d174d)">M
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm" style="color:var(--ink)">Mona Zoet</p>
+                            <p class="text-xs" style="color:var(--slate)">Founder, RegPac</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="stars mb-3">★★★★★</div>
+                    <p class="text-sm leading-relaxed mb-6" style="color:var(--slate)">"The responsiveness of their team
+                        makes them stand out. They provide the local support we need and truly alleviate the pressure
+                        for us as business owners."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="avatar text-white" style="background:linear-gradient(135deg,#14b8a6,#0f766e)">D
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm" style="color:var(--ink)">David Henley</p>
+                            <p class="text-xs" style="color:var(--slate)">Director, Brio Books Pty Ltd</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-10 mb-8">
+
+                <div class="col-span-2">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--teal)">
+                            <span class="material-icons-round text-white" style="font-size:17px">business</span>
+                        </div>
+                        <span class="font-display text-white text-xl font-bold">Nexus</span>
+                    </div>
+                    <p class="text-sm leading-relaxed max-w-xs" style="color:rgba(255,255,255,0.38)">By founders, for
+                        fellow founders. Optimise with Nexus, and reap the benefits of digitalisation.</p>
+                    <div class="flex gap-2 mt-5">
+                        <a href="#" class="social-btn"><span class="material-icons-round">link</span></a>
+                        <a href="#" class="social-btn"><span class="material-icons-round">groups</span></a>
+                        <a href="#" class="social-btn"><span class="material-icons-round">play_circle</span></a>
+                        <a href="#" class="social-btn"><span class="material-icons-round">photo_camera</span></a>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="foot-head">Start a Business</p>
+                    <ul class="space-y-2.5">
+                        <li><a href="#">Register a Company</a></li>
+                        <li><a href="#">Expanding into Australia</a></li>
+                        <li><a href="#">ASIC Agent</a></li>
+                        <li><a href="#">Virtual Office</a></li>
+                        <li><a href="#">Discretionary Trust</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="foot-head">Tax &amp; Accounting</p>
+                    <ul class="space-y-2.5">
+                        <li><a href="#">Accountant Services</a></li>
+                        <li><a href="#">Sole Trader</a></li>
+                        <li><a href="#">Freelancers</a></li>
+                        <li><a href="#">Startups</a></li>
+                        <li><a href="#">SMEs</a></li>
+                        <li><a href="#">Ecommerce</a></li>
+                        <li><a href="#">Payroll Services</a></li>
+                        <li><a href="#">Bookkeeping</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="foot-head">Resources</p>
+                    <ul class="space-y-2.5 mb-5">
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                    <p class="foot-head">Pricing</p>
+                    <ul class="space-y-2.5 mb-5">
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                    <p class="foot-head">Legal</p>
+                    <ul class="space-y-2.5">
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Security Policy</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="foot-head">Company</p>
+                    <ul class="space-y-2.5">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Careers at Nexus</a></li>
+                        <li><a href="#">Partnerships</a></li>
+                        <li><a href="#">Affiliate Partners</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="foot-divider"></div>
+
+            <div class="flex flex-wrap justify-center gap-6 mb-5">
+                <span class="legal-badge"><span class="material-icons-round">check_circle</span>ACN 652 594 397</span>
+                <span class="legal-badge"><span class="material-icons-round">check_circle</span>ABN 49 652 594
+                    397</span>
+                <span class="legal-badge"><span class="material-icons-round">check_circle</span>TPB Agent
+                    26131380</span>
+                <span class="legal-badge"><span class="material-icons-round">check_circle</span>ASIC Reg Agent
+                    47659</span>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-5 mb-5">
+                <a href="#" style="color:rgba(255,255,255,0.3); font-size:12px">Data Protection &amp; Privacy Policy</a>
+                <a href="#" style="color:rgba(255,255,255,0.3); font-size:12px">Terms &amp; Conditions</a>
+                <a href="#" style="color:rgba(255,255,255,0.3); font-size:12px">Promotion Terms</a>
+                <a href="#" style="color:rgba(255,255,255,0.3); font-size:12px">Service Status</a>
+            </div>
+
+            <p class="text-center text-xs" style="color:rgba(255,255,255,0.18)">
+                © 2026 Nexus acknowledges Australia's First Nations Peoples as the Traditional Owners and Custodians of
+                the land. ISO/IEC 27001:2022 certified.
+            </p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

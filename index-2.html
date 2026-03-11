@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus — Set Up Your Company</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+  :root {
+    --teal:#0ABFA3; --teal-dark:#079e87; --teal-glow:rgba(10,191,163,0.18);
+    --ink:#0D1F2D; --ink2:#1A3445; --slate:#5A7184; --paper:#F4F9F8;
+    --white:#fff; --orange:#FF7043; --border:#e2eceb;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+  .font-display{font-family:'Fraunces',serif}
+
+  /* ── Screens ── */
+  .screen{display:none;opacity:0;transition:opacity 0.4s ease}
+  .screen.active{display:block;animation:fadeIn 0.45s ease forwards}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ── Loader ── */
+  #loader{display:none;position:fixed;inset:0;z-index:9999;background:var(--ink);flex-direction:column;align-items:center;justify-content:center;gap:28px}
+  #loader.show{display:flex}
+  .loader-logo{font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:white;letter-spacing:-1px}
+  .loader-logo span{color:var(--teal)}
+  .loader-bar-wrap{width:280px;height:4px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
+  .loader-bar{height:100%;background:linear-gradient(90deg,var(--teal),#34d6b9);border-radius:4px;width:0%;animation:loadBar 1.8s cubic-bezier(0.4,0,0.2,1) forwards}
+  @keyframes loadBar{0%{width:0%}60%{width:75%}85%{width:90%}100%{width:100%}}
+  .loader-steps{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+  .loader-step{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.5);font-size:13px;font-weight:500;transition:color 0.3s}
+  .loader-step.done{color:var(--teal)}
+  .loader-step .material-icons-round{font-size:17px!important;opacity:0.4}
+  .loader-step.done .material-icons-round{opacity:1;color:var(--teal)}
+  .loader-dots{display:flex;gap:6px;margin-top:4px}
+  .loader-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2)}
+  .loader-dot.lit{background:var(--teal);animation:dotPulse 1.2s infinite}
+  .loader-dot:nth-child(2).lit{animation-delay:0.2s}
+  .loader-dot:nth-child(3).lit{animation-delay:0.4s}
+  @keyframes dotPulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+  /* ── Top banner ── */
+  .top-banner{background:linear-gradient(90deg,#0ABFA3,#079e87);padding:10px 24px;text-align:center;font-size:13px;font-weight:500;color:white;position:relative;overflow:hidden}
+  .top-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.04) 0,rgba(255,255,255,0.04) 1px,transparent 1px,transparent 40px)}
+  .save-pill{background:white;color:var(--teal-dark);font-weight:700;font-size:12px;padding:3px 12px;border-radius:100px;margin-left:10px;display:inline-block}
+
+  /* ── Navbar ── */
+  .navbar{position:sticky;top:0;z-index:500;background:rgba(13,31,45,0.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(10,191,163,0.12)}
+  .nav-link{color:rgba(255,255,255,0.65);font-size:14px;font-weight:500;padding:6px 2px;transition:color 0.2s;text-decoration:none}
+  .nav-link:hover{color:white}
+  .btn-teal{background:var(--teal);color:var(--ink);font-weight:700;font-size:14px;padding:10px 22px;border-radius:10px;border:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+  .btn-teal:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 6px 20px var(--teal-glow)}
+  .btn-outline{background:transparent;color:var(--teal);border:2px solid var(--teal);font-weight:700;font-size:14px;padding:10px 22px;border-radius:10px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+  .btn-outline:hover{background:var(--teal);color:var(--ink)}
+
+  /* ── Progress bar (top of content) ── */
+  .progress-bar-wrap{background:white;border-bottom:1px solid var(--border);padding:0 24px}
+  .progress-steps{max-width:860px;margin:0 auto;display:flex;align-items:center;padding:18px 0;gap:0}
+  .prog-step{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#b0c4cc;flex:1}
+  .prog-step.active{color:var(--ink)}
+  .prog-step.done{color:var(--teal)}
+  .prog-step .step-circle{width:28px;height:28px;border-radius:50%;background:#e8f0ee;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#b0c4cc;flex-shrink:0;transition:all 0.3s}
+  .prog-step.active .step-circle{background:var(--teal);color:var(--ink)}
+  .prog-step.done .step-circle{background:var(--teal);color:white}
+  .prog-step.done .step-circle::after{content:'✓'}
+  .prog-sep{flex:1;height:2px;background:#e8f0ee;margin:0 8px;border-radius:2px}
+  .prog-sep.done{background:var(--teal)}
+
+  /* ── Two-col layout ── */
+  .two-col{max-width:1050px;margin:0 auto;padding:36px 24px 80px;display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start}
+  @media(max-width:860px){.two-col{grid-template-columns:1fr}}
+
+  /* ── Content card ── */
+  .content-card{background:white;border-radius:20px;border:1.5px solid var(--border);overflow:hidden}
+  .card-top-bar{height:4px;background:linear-gradient(90deg,var(--teal),#34d6b9)}
+  .card-body{padding:36px}
+
+  /* ── Feature list ── */
+  .feat-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+  .feat-item:last-child{border-bottom:none}
+  .feat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .feat-icon .material-icons-round{font-size:19px!important}
+
+  /* ── Offer box ── */
+  .offer-box{border:2px solid var(--teal);border-radius:16px;padding:20px 24px;background:rgba(10,191,163,0.03);position:relative;margin-top:24px}
+  .off-badge{position:absolute;top:-14px;right:20px;background:#FFB800;color:#333;font-weight:800;font-size:12px;padding:4px 14px;border-radius:100px;letter-spacing:0.05em}
+
+  /* ── Choice cards ── */
+  .choice-card{border:2px solid var(--border);border-radius:16px;padding:22px;cursor:pointer;transition:all 0.22s;position:relative}
+  .choice-card:hover{border-color:rgba(10,191,163,0.4);background:rgba(10,191,163,0.02)}
+  .choice-card.selected{border-color:var(--teal);background:rgba(10,191,163,0.05);box-shadow:0 0 0 4px rgba(10,191,163,0.10)}
+  .choice-radio{width:20px;height:20px;border-radius:50%;border:2px solid #cdd9dd;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
+  .choice-card.selected .choice-radio{border-color:var(--teal);background:var(--teal)}
+  .choice-card.selected .choice-radio::after{content:'';width:7px;height:7px;border-radius:50%;background:white}
+
+  /* ── Summary sidebar ── */
+  .summary-card{background:white;border-radius:20px;border:1.5px solid var(--border);overflow:hidden;position:sticky;top:88px}
+  .sum-header{background:var(--ink);padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
+  .sum-body{padding:20px 22px}
+  .sum-line{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+  .sum-line:last-of-type{border-bottom:none}
+  .sum-line .lbl{color:var(--slate);flex:1}
+  .sum-line .val{font-weight:600;color:var(--ink);white-space:nowrap;text-align:right}
+  .sum-line .free{color:var(--teal);font-weight:700}
+  .sum-line .strike{text-decoration:line-through;color:#b0c0cc;font-weight:400;font-size:11px;display:block}
+  .sum-total-row{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 0;border-top:2px solid var(--border);margin-top:4px}
+  .sum-total-num{font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:var(--ink);transition:all 0.4s}
+  .price-change{animation:priceFlash 0.5s ease}
+  @keyframes priceFlash{0%{color:var(--teal);transform:scale(1.08)}100%{color:var(--ink);transform:scale(1)}}
+
+  /* ── Map placeholder ── */
+  .map-box{border-radius:14px;overflow:hidden;border:1.5px solid var(--border);height:200px;position:relative;background:#e8f0ee;display:flex;align-items:center;justify-content:center}
+  .map-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,191,163,0.05),rgba(59,130,246,0.05));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+  .map-pin{width:44px;height:44px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(10,191,163,0.35);animation:pinBounce 2s ease-in-out infinite}
+  @keyframes pinBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .map-roads{position:absolute;inset:0;background-image:linear-gradient(rgba(10,191,163,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(10,191,163,0.08) 1px,transparent 1px);background-size:28px 28px}
+
+  /* ── Need guidance ── */
+  .guidance-btn{display:inline-flex;align-items:center;gap:6px;color:var(--teal);font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;padding:0}
+  .guidance-btn .material-icons-round{font-size:17px!important}
+
+  /* ── Next button ── */
+  .next-btn-wrap{background:white;border-top:1px solid var(--border);padding:16px 24px}
+  .next-btn-inner{max-width:1050px;margin:0 auto;display:flex;justify-content:flex-end}
+
+  /* ── Accordion ── */
+  .accordion{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .accordion-header{display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:rgba(10,191,163,0.03);font-size:13px;font-weight:600;color:var(--ink)}
+  .accordion-header .material-icons-round{font-size:17px!important;color:var(--slate)}
+  .accordion-header .chevron{margin-left:auto;transition:transform 0.2s}
+  .accordion-header .chevron.open{transform:rotate(180deg)}
+  .accordion-body{display:none;padding:14px 18px;font-size:13px;color:var(--slate);line-height:1.6;border-top:1px solid var(--border);background:white}
+  .accordion-body.open{display:block}
+
+  /* ── Chat widget ── */
+  .chat-widget{position:fixed;bottom:28px;right:28px;z-index:200;background:var(--ink);color:white;border-radius:50px;padding:12px 20px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(13,31,45,0.3);cursor:pointer;border:1.5px solid rgba(10,191,163,0.3);transition:all 0.2s}
+  .chat-widget:hover{background:var(--ink2);transform:translateY(-2px)}
+  .chat-widget .material-icons-round{color:var(--teal);font-size:20px!important}
+  .chat-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 1.5s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.3)}}
+
+  /* ── Page 2 hero ── */
+  .p2-hero{background:white;border-bottom:1px solid var(--border);padding:48px 24px 40px;position:relative;overflow:hidden}
+  .p2-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--teal),var(--teal-dark))}
+  .p2-deco{position:absolute;right:-80px;top:-100px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(10,191,163,0.07),transparent 65%);pointer-events:none}
+
+  /* rating badge */
+  .rating-badge{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1.5px solid var(--border);border-radius:12px;padding:9px 14px;font-size:13px}
+  .g-logo{font-weight:800;font-size:15px}
+  .g-logo span:nth-child(1){color:#4285F4}.g-logo span:nth-child(2){color:#EA4335}
+  .g-logo span:nth-child(3){color:#FBBC05}.g-logo span:nth-child(4){color:#4285F4}
+  .g-logo span:nth-child(5){color:#34A853}.g-logo span:nth-child(6){color:#EA4335}
+  .stars-gold{color:#FFB800;font-size:13px;letter-spacing:0.5px}
+
+  /* trust chips */
+  .trust-chip{display:inline-flex;align-items:center;gap:5px;background:var(--paper);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--slate)}
+  .trust-chip .material-icons-round{font-size:14px!important;color:var(--teal)}
+
+  /* footer */
+  footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:48px 24px 28px}
+  footer a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:13px;transition:color 0.2s}
+  footer a:hover{color:var(--teal)}
+  .foot-head{color:rgba(255,255,255,0.85);font-weight:600;font-size:12px;margin-bottom:14px;letter-spacing:0.06em;text-transform:uppercase}
+  .foot-divider{height:1px;background:rgba(255,255,255,0.08);margin:36px 0 24px}
+  .legal-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,0.33)}
+  .legal-badge .material-icons-round{font-size:14px!important;color:var(--teal)}
+  .social-btn{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;transition:all 0.2s;text-decoration:none;cursor:pointer}
+  .social-btn:hover{background:rgba(10,191,163,0.15);border-color:var(--teal)}
+  .social-btn .material-icons-round{font-size:17px!important;color:rgba(255,255,255,0.5)}
+  .social-btn:hover .material-icons-round{color:var(--teal)}
+  .anim{animation:fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both}
+  .d1{animation-delay:0.05s}.d2{animation-delay:0.12s}.d3{animation-delay:0.19s}.d4{animation-delay:0.26s}.d5{animation-delay:0.33s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+  /* phone banner */
+  .phone-bar{background:white;border-bottom:1px solid var(--border);padding:10px 24px;display:flex;justify-content:flex-end}
+  .phone-bar a{font-size:14px;font-weight:600;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:5px}
+  .phone-bar a .material-icons-round{font-size:17px!important}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ LOADER ═══════════ -->
+<div id="loader">
+  <div class="loader-logo">N<span>e</span>xus</div>
+  <div style="text-align:center">
+    <p style="color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:14px;font-weight:500" id="loader-msg">Preparing your company setup...</p>
+    <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+  </div>
+  <div class="loader-steps" id="loader-steps">
+    <div class="loader-step" id="ls1"><span class="material-icons-round">check_circle</span>Verifying selected plan</div>
+    <div class="loader-step" id="ls2"><span class="material-icons-round">check_circle</span>Loading ASIC requirements</div>
+    <div class="loader-step" id="ls3"><span class="material-icons-round">check_circle</span>Setting up your package</div>
+  </div>
+  <div class="loader-dots">
+    <div class="loader-dot lit" id="ld1"></div>
+    <div class="loader-dot lit" id="ld2"></div>
+    <div class="loader-dot lit" id="ld3"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SHARED HEADER (shown on all screens)
+════════════════════════════════════════════ -->
+<div id="shared-header">
+  <!-- Top banner -->
+  <div class="top-banner relative z-10">
+    <span class="relative z-10 flex items-center justify-center flex-wrap gap-1.5">
+      <span class="material-icons-round" style="font-size:15px;vertical-align:middle">celebration</span>
+      <strong>Free Company Registration</strong> when you bundle with annual accounting. Hurry — <strong>26/100</strong> slots already claimed!
+      <span class="save-pill">Save $611 now →</span>
+    </span>
+  </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="company-registration.html" class="flex items-center gap-2.5" style="text-decoration:none">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--teal)">
+          <span class="material-icons-round text-white" style="font-size:17px">business</span>
+        </div>
+        <span class="font-display text-white text-xl font-bold tracking-tight">Nexus</span>
+      </a>
+      <div class="hidden lg:flex items-center gap-8">
+        <a href="#" class="nav-link">Incorporation</a>
+        <a href="#" class="nav-link">Accounting &amp; Tax</a>
+        <a href="#" class="nav-link">Pricing</a>
+        <a href="#" class="nav-link">Resources</a>
+        <a href="#" class="nav-link">Company Info</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="#" class="hidden md:flex items-center gap-1.5 text-sm font-medium transition px-3 py-2" style="color:rgba(255,255,255,0.55);text-decoration:none">
+          <span class="material-icons-round" style="font-size:17px">phone</span>Contact Sales
+        </a>
+        <a href="#" class="text-sm font-medium px-3 py-2" style="color:rgba(255,255,255,0.55);text-decoration:none">Log in</a>
+        <button class="btn-teal"><span class="material-icons-round" style="font-size:17px">rocket_launch</span>Get started</button>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 2 — Setup landing
+════════════════════════════════════════════ -->
+<div id="page2" class="screen active">
+
+  <!-- Hero -->
+  <div class="p2-hero">
+    <div class="p2-deco"></div>
+    <div class="max-w-4xl mx-auto relative" style="z-index:1">
+
+      <div class="anim d1 flex items-center gap-2 text-sm mb-5" style="color:var(--slate)">
+        <a href="company-registration.html" style="color:var(--teal);text-decoration:none;font-weight:600">Plans</a>
+        <span class="material-icons-round" style="font-size:16px">chevron_right</span>
+        <span style="color:var(--ink);font-weight:600">Set up company</span>
+        <span class="material-icons-round" style="font-size:16px">chevron_right</span>
+        <span>Checkout</span>
+        <span class="material-icons-round" style="font-size:16px">chevron_right</span>
+        <span>Company details</span>
+      </div>
+
+      <h1 class="anim d2 font-display mb-2" style="font-size:clamp(26px,4vw,40px);font-weight:700;color:var(--ink)">
+        Let's set up your company together
+      </h1>
+      <p class="anim d3 mb-5" style="color:var(--slate);font-size:15px">
+        <span class="material-icons-round" style="font-size:15px;vertical-align:middle;color:var(--teal)">schedule</span>
+        Takes around 5–7 minutes to complete
+      </p>
+      <p class="anim d3 text-sm mb-4" style="color:var(--slate)">Follow these simple steps. We'll handle the incorporation with ASIC.</p>
+
+      <div class="anim d3 flex flex-col gap-2.5 mb-7">
+        <div class="flex items-center gap-3 text-sm font-semibold" style="color:var(--ink)">
+          <div style="width:22px;height:22px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <span class="material-icons-round" style="font-size:14px;color:white">check</span>
+          </div>
+          <span><strong>Choose your services</strong> <span style="color:var(--slate);font-weight:400">(mandatory services included by default)</span></span>
+        </div>
+        <div class="flex items-center gap-3 text-sm font-semibold" style="color:var(--ink)">
+          <div style="width:22px;height:22px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <span class="material-icons-round" style="font-size:14px;color:white">check</span>
+          </div>
+          <strong>Review and complete checkout</strong>
+        </div>
+        <div class="flex items-center gap-3 text-sm font-semibold" style="color:var(--ink)">
+          <div style="width:22px;height:22px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <span class="material-icons-round" style="font-size:14px;color:white">check</span>
+          </div>
+          <strong>Submit company details after payment</strong>
+        </div>
+      </div>
+
+      <div class="anim d4 flex flex-wrap items-center gap-4">
+        <button class="btn-teal" style="padding:14px 36px;font-size:15px;border-radius:12px" onclick="startLoader()">
+          <span class="material-icons-round" style="font-size:18px">play_arrow</span>Start now
+        </button>
+        <button class="btn-outline" style="padding:12px 24px;border-radius:12px;font-size:14px">
+          <span class="material-icons-round" style="font-size:17px">local_offer</span>See pricing
+        </button>
+        <button class="btn-outline" style="padding:12px 24px;border-radius:12px;font-size:14px">
+          <span class="material-icons-round" style="font-size:17px">headset_mic</span>Talk to an expert
+        </button>
+        <div class="rating-badge ml-1">
+          <span class="g-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
+          <span class="stars-gold">★★★★</span><span class="stars-gold" style="opacity:0.5">★</span>
+          <span style="color:var(--slate);font-size:13px;font-weight:600">4.8/5</span>
+          <span style="color:#aab;font-size:12px">(180+ reviews)</span>
+        </div>
+      </div>
+
+      <div class="anim d5 flex flex-wrap gap-2 mt-6">
+        <div class="trust-chip"><span class="material-icons-round">security</span>256-bit SSL</div>
+        <div class="trust-chip"><span class="material-icons-round">replay</span>30-day money-back</div>
+        <div class="trust-chip"><span class="material-icons-round">verified_user</span>ASIC registered</div>
+        <div class="trust-chip"><span class="material-icons-round">support_agent</span>24/7 support</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer for page 2 -->
+  <div id="footer-p2">
+    <!-- reuse shared footer macro -->
+  </div>
+
+  <!-- footer inline -->
+  <footer>
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-10 mb-8">
+        <div class="col-span-2">
+          <div class="flex items-center gap-2.5 mb-4">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--teal)">
+              <span class="material-icons-round text-white" style="font-size:17px">business</span>
+            </div>
+            <span class="font-display text-white text-xl font-bold">Nexus</span>
+          </div>
+          <p class="text-sm leading-relaxed max-w-xs" style="color:rgba(255,255,255,0.38)">By founders, for fellow founders. Optimise with Nexus, and reap the benefits of digitalisation.</p>
+          <div class="flex gap-2 mt-5">
+            <a href="#" class="social-btn"><span class="material-icons-round">link</span></a>
+            <a href="#" class="social-btn"><span class="material-icons-round">groups</span></a>
+            <a href="#" class="social-btn"><span class="material-icons-round">play_circle</span></a>
+            <a href="#" class="social-btn"><span class="material-icons-round">photo_camera</span></a>
+          </div>
+        </div>
+        <div>
+          <p class="foot-head">Start a Business</p>
+          <ul class="space-y-2.5"><li><a href="#">Register a Company</a></li><li><a href="#">Expanding into Australia</a></li><li><a href="#">ASIC Agent</a></li><li><a href="#">Virtual Office</a></li></ul>
+        </div>
+        <div>
+          <p class="foot-head">Tax &amp; Accounting</p>
+          <ul class="space-y-2.5"><li><a href="#">Accountant Services</a></li><li><a href="#">Sole Trader</a></li><li><a href="#">Startups</a></li><li><a href="#">SMEs</a></li><li><a href="#">Payroll Services</a></li></ul>
+        </div>
+        <div>
+          <p class="foot-head">Company</p>
+          <ul class="space-y-2.5"><li><a href="#">About Us</a></li><li><a href="#">Contact us</a></li><li><a href="#">Careers</a></li><li><a href="#">Partnerships</a></li></ul>
+        </div>
+      </div>
+      <div class="foot-divider"></div>
+      <div class="flex flex-wrap justify-center gap-6 mb-5">
+        <span class="legal-badge"><span class="material-icons-round">check_circle</span>ACN 652 594 397</span>
+        <span class="legal-badge"><span class="material-icons-round">check_circle</span>ABN 49 652 594 397</span>
+        <span class="legal-badge"><span class="material-icons-round">check_circle</span>TPB Agent 26131380</span>
+        <span class="legal-badge"><span class="material-icons-round">check_circle</span>ASIC Reg Agent 47659</span>
+      </div>
+      <p class="text-center text-xs" style="color:rgba(255,255,255,0.18)">© 2026 Nexus — ISO/IEC 27001:2022 certified.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 3 — ASIC Compliance
+════════════════════════════════════════════ -->
+<div id="page3" class="screen">
+
+  <!-- Phone bar -->
+  <div class="phone-bar">
+    <a href="tel:+61291000480"><span class="material-icons-round">phone</span>Speak to an advisor: +61 2 9100 0480</a>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-bar-wrap">
+    <div class="progress-steps">
+      <div class="prog-step done">
+        <div class="step-circle"></div>
+        <span class="hidden sm:inline">Plan Selected</span>
+      </div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step active">
+        <div class="step-circle" style="background:var(--teal);color:var(--ink)">2</div>
+        <span class="hidden sm:inline">ASIC Compliance</span>
+      </div>
+      <div class="prog-sep"></div>
+      <div class="prog-step">
+        <div class="step-circle">3</div>
+        <span class="hidden sm:inline">Mailroom</span>
+      </div>
+      <div class="prog-sep"></div>
+      <div class="prog-step">
+        <div class="step-circle">4</div>
+        <span class="hidden sm:inline">Checkout</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- LEFT -->
+    <div>
+      <div class="content-card anim d1">
+        <div class="card-top-bar"></div>
+        <div class="card-body">
+          <!-- Guidance -->
+          <div class="flex justify-end mb-4">
+            <button class="guidance-btn"><span class="material-icons-round">help_outline</span>Need Guidance?</button>
+          </div>
+
+          <div class="flex items-center gap-3 mb-3">
+            <div class="feat-icon" style="background:rgba(10,191,163,0.10)">
+              <span class="material-icons-round" style="color:var(--teal);font-size:26px!important">verified_user</span>
+            </div>
+            <h2 class="font-display font-bold" style="font-size:clamp(20px,3vw,26px);color:var(--ink)">Stress-free ASIC compliance,<br>handled for you</h2>
+          </div>
+
+          <p class="text-sm leading-relaxed mb-6" style="color:var(--slate)">Enjoy peace of mind knowing every ASIC filing, update, and review is managed by experts, keeping your business compliant and protected from fines.</p>
+
+          <div class="space-y-1 mb-6">
+            <div class="feat-item">
+              <div class="feat-icon" style="background:rgba(10,191,163,0.08)">
+                <span class="material-icons-round" style="color:var(--teal)">sync</span>
+              </div>
+              <div>
+                <p class="font-semibold text-sm" style="color:var(--ink)">Unlimited ASIC updates</p>
+                <p class="text-xs mt-0.5" style="color:var(--slate)">All director, address and share changes handled without extra fees.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-icon" style="background:rgba(59,130,246,0.08)">
+                <span class="material-icons-round" style="color:#3b82f6">folder_open</span>
+              </div>
+              <div>
+                <p class="font-semibold text-sm" style="color:var(--ink)">24/7 access to company documents</p>
+                <p class="text-xs mt-0.5" style="color:var(--slate)">All ASIC documents stored securely and accessible anytime.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-icon" style="background:rgba(139,92,246,0.08)">
+                <span class="material-icons-round" style="color:#8b5cf6">bolt</span>
+              </div>
+              <div>
+                <p class="font-semibold text-sm" style="color:var(--ink)">1-day support guarantee</p>
+                <p class="text-xs mt-0.5" style="color:var(--slate)">Response from your dedicated ASIC agent within 1 business day.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Offer box -->
+          <div class="offer-box">
+            <span class="off-badge">40% OFF</span>
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(10,191,163,0.10)">
+                <span class="material-icons-round" style="color:var(--teal);font-size:20px!important">shield</span>
+              </div>
+              <div>
+                <p class="font-bold text-sm" style="color:var(--ink)">ASIC Compliance</p>
+                <p class="text-xs" style="color:var(--slate)">Included with incorporation service</p>
+              </div>
+            </div>
+            <div class="flex items-baseline gap-2 mb-1 mt-3">
+              <span style="text-decoration:line-through;color:#b0c0cc;font-size:15px">A$300</span>
+              <span class="font-display font-bold" style="font-size:30px;color:var(--ink)">A$180</span>
+            </div>
+            <p class="text-sm font-semibold" style="color:var(--teal)">for the first year</p>
+            <p class="text-xs mt-1" style="color:var(--slate)">Then, A$300/year</p>
+          </div>
+
+          <!-- Accordion -->
+          <div class="accordion mt-5">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span class="material-icons-round">info</span>
+              Did you know? ASIC fines can reach A$1,375 for late lodgements.
+              <span class="material-icons-round chevron">expand_more</span>
+            </div>
+            <div class="accordion-body">
+              ASIC penalties for non-compliance include late fees, director banning, and deregistration of your company. Our compliance package ensures you never miss a filing deadline.
+            </div>
+          </div>
+
+          <!-- What's included -->
+          <div class="mt-7">
+            <p class="font-display font-bold text-lg mb-4" style="color:var(--ink)">What's included</p>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="flex items-center gap-2 text-sm" style="color:var(--slate)">
+                <span class="material-icons-round" style="color:var(--teal);font-size:17px!important">check_circle</span>ASIC Annual Review
+              </div>
+              <div class="flex items-center gap-2 text-sm" style="color:var(--slate)">
+                <span class="material-icons-round" style="color:var(--teal);font-size:17px!important">check_circle</span>Director changes
+              </div>
+              <div class="flex items-center gap-2 text-sm" style="color:var(--slate)">
+                <span class="material-icons-round" style="color:var(--teal);font-size:17px!important">check_circle</span>Share register updates
+              </div>
+              <div class="flex items-center gap-2 text-sm" style="color:var(--slate)">
+                <span class="material-icons-round" style="color:var(--teal);font-size:17px!important">check_circle</span>Address changes
+              </div>
+              <div class="flex items-center gap-2 text-sm" style="color:var(--slate)">
+                <span class="material-icons-round" style="color:var(--teal);font-size:17px!important">check_circle</span>Constitution updates
+              </div>
+              <div class="flex items-center gap-2 text-sm" style="color:var(--slate)">
+                <span class="material-icons-round" style="color:var(--teal);font-size:17px!important">check_circle</span>Document storage</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Summary -->
+    <div>
+      <div class="summary-card anim d2">
+        <div class="sum-header">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Your Nexus Package</p>
+            <p class="font-display text-white font-bold text-lg mt-0.5">Grow Plan</p>
+          </div>
+          <span class="material-icons-round" style="color:var(--teal);font-size:22px!important">trending_up</span>
+        </div>
+        <div class="sum-body">
+          <div class="sum-line">
+            <span class="lbl">ASIC Fee</span>
+            <span class="val"><span class="strike">A$611</span>FREE</span>
+          </div>
+          <div class="sum-line">
+            <span class="lbl">ASIC Compliance Management</span>
+            <span class="val">A$180<br><span style="color:#aab;font-size:11px;font-weight:400">first year</span></span>
+          </div>
+          <div class="sum-line">
+            <span class="lbl">ABN &amp; Tax Compliance</span>
+            <span class="val free">FREE</span>
+          </div>
+          <div class="sum-line">
+            <span class="lbl">Discount</span>
+            <span class="val" style="color:var(--teal)">−A$120</span>
+          </div>
+          <div class="sum-total-row">
+            <div>
+              <p class="text-xs mb-1" style="color:var(--slate)">Total (GST inclusive)</p>
+              <div class="sum-total-num" id="total-p3">A$791</div>
+            </div>
+            <span class="material-icons-round" style="color:var(--teal);font-size:20px!important">info_outline</span>
+          </div>
+
+          <button class="btn-teal w-full justify-center mt-5" style="padding:13px;font-size:14px;border-radius:12px" onclick="goPage(4)">
+            <span class="material-icons-round" style="font-size:18px">arrow_forward</span>
+            Continue
+          </button>
+          <p class="text-center text-xs mt-2 flex items-center justify-center gap-1" style="color:var(--slate)">
+            <span class="material-icons-round" style="font-size:14px;color:var(--teal)">lock</span>Secure checkout
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next button bar -->
+  <div class="next-btn-wrap">
+    <div class="next-btn-inner">
+      <button class="btn-teal" style="padding:13px 40px;font-size:15px;border-radius:12px" onclick="goPage(4)">
+        <span class="material-icons-round" style="font-size:18px">arrow_forward</span>Next
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 4 — Mailroom / Registered Address
+════════════════════════════════════════════ -->
+<div id="page4" class="screen">
+
+  <!-- Phone bar -->
+  <div class="phone-bar">
+    <a href="tel:+61291000480"><span class="material-icons-round">phone</span>Speak to an advisor: +61 2 9100 0480</a>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-bar-wrap">
+    <div class="progress-steps">
+      <div class="prog-step done">
+        <div class="step-circle"></div>
+        <span class="hidden sm:inline">Plan Selected</span>
+      </div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done">
+        <div class="step-circle"></div>
+        <span class="hidden sm:inline">ASIC Compliance</span>
+      </div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step active">
+        <div class="step-circle" style="background:var(--teal);color:var(--ink)">3</div>
+        <span class="hidden sm:inline">Mailroom</span>
+      </div>
+      <div class="prog-sep"></div>
+      <div class="prog-step">
+        <div class="step-circle">4</div>
+        <span class="hidden sm:inline">Checkout</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- LEFT -->
+    <div>
+      <!-- Back -->
+      <button onclick="goPage(3)" class="flex items-center gap-1.5 text-sm font-semibold mb-5 anim d1" style="color:var(--slate);background:none;border:none;cursor:pointer">
+        <span class="material-icons-round" style="font-size:18px!important">arrow_back</span>Back
+      </button>
+
+      <div class="content-card anim d2">
+        <div class="card-top-bar"></div>
+        <div class="card-body">
+
+          <div class="flex justify-end mb-2">
+            <button class="guidance-btn"><span class="material-icons-round">help_outline</span>Need Guidance?</button>
+          </div>
+
+          <h2 class="font-display font-bold mb-2" style="font-size:clamp(19px,3vw,24px);color:var(--ink)">Access your business mail anytime, anywhere — securely and compliantly</h2>
+          <p class="text-sm leading-relaxed mb-6" style="color:var(--slate)">Your ASIC-registered Sydney CBD address and digital mailroom in one seamless solution.</p>
+
+          <!-- Map + features -->
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="space-y-1">
+              <div class="feat-item">
+                <div class="feat-icon" style="background:rgba(10,191,163,0.08)">
+                  <span class="material-icons-round" style="color:var(--teal)">all_inbox</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--ink)">24/7 access to your secure digital mailroom</p>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-icon" style="background:rgba(59,130,246,0.08)">
+                  <span class="material-icons-round" style="color:#3b82f6">scanner</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--ink)">Same-day mail scanning and upload</p>
+                </div>
+              </div>
+              <div class="feat-item">
+                <div class="feat-icon" style="background:rgba(139,92,246,0.08)">
+                  <span class="material-icons-round" style="color:#8b5cf6">lock</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-sm" style="color:var(--ink)">Complete privacy and data protection</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Map -->
+            <div class="map-box">
+              <div class="map-roads"></div>
+              <div class="map-overlay">
+                <div class="map-pin">
+                  <span class="material-icons-round" style="color:white;font-size:22px!important">location_on</span>
+                </div>
+                <div style="background:white;border-radius:10px;padding:8px 14px;box-shadow:0 4px 16px rgba(13,31,45,0.15);text-align:center">
+                  <p class="font-bold text-sm" style="color:var(--ink)">Nexus Accounting</p>
+                  <p class="text-xs" style="color:var(--slate)">Sydney CBD, NSW 2000</p>
+                  <p class="text-xs mt-1" style="color:var(--teal);font-weight:600">Open in Maps ↗</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion -->
+          <div class="accordion mb-6">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span class="material-icons-round">info</span>
+              Did you know? Nearly half of Australians experienced a data breach last year.
+              <span class="material-icons-round chevron">expand_more</span>
+            </div>
+            <div class="accordion-body">
+              Using your home address as your registered office puts your personal address on the public ASIC register, visible to anyone. Our digital mailroom keeps your private address off the record.
+            </div>
+          </div>
+
+          <!-- Choice cards -->
+          <p class="font-semibold text-sm mb-3" style="color:var(--ink)">Choose your mailroom option:</p>
+          <div class="grid md:grid-cols-2 gap-4">
+
+            <div class="choice-card selected" id="choice-yes" onclick="selectMailroom('yes')">
+              <div class="flex items-start gap-3">
+                <div class="choice-radio mt-0.5"></div>
+                <div class="flex-1">
+                  <p class="font-bold text-sm mb-1" style="color:var(--ink)">Yes, I want secure 24/7 access to my business mail</p>
+                  <p class="text-xs mb-3" style="color:var(--slate)">ASIC compliant address + digital mailroom included.</p>
+                  <span class="inline-flex items-center gap-1 text-sm font-bold" style="color:var(--teal)">
+                    <span class="material-icons-round" style="font-size:16px!important">add</span>A$300/year
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="choice-card" id="choice-no" onclick="selectMailroom('no')">
+              <div class="flex items-start gap-3">
+                <div class="choice-radio mt-0.5"></div>
+                <div class="flex-1">
+                  <p class="font-bold text-sm mb-1" style="color:var(--ink)">No, I'll use my address publicly and manage my own mail</p>
+                  <p class="text-xs mb-3" style="color:var(--slate)">Your personal address will be visible on ASIC's public register.</p>
+                  <span class="inline-flex items-center gap-1 text-sm font-semibold" style="color:var(--slate)">
+                    <span class="material-icons-round" style="font-size:16px!important">block</span>No thanks
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Summary -->
+    <div>
+      <div class="summary-card anim d3">
+        <div class="sum-header">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Your Nexus Package</p>
+            <p class="font-display text-white font-bold text-lg mt-0.5">Grow Plan</p>
+          </div>
+          <span class="material-icons-round" style="color:var(--teal);font-size:22px!important">trending_up</span>
+        </div>
+        <div class="sum-body">
+          <div class="sum-line">
+            <span class="lbl">ASIC Fee</span>
+            <span class="val free">FREE</span>
+          </div>
+          <div class="sum-line">
+            <span class="lbl">ASIC Compliance</span>
+            <span class="val">A$180/yr</span>
+          </div>
+          <div class="sum-line">
+            <span class="lbl">ABN &amp; Tax Compliance</span>
+            <span class="val free">FREE</span>
+          </div>
+          <div class="sum-line" id="mailroom-line" style="transition:all 0.4s">
+            <span class="lbl flex items-center gap-1.5">
+              <span class="material-icons-round" style="font-size:14px!important;color:var(--teal)">mark_email_unread</span>
+              Digital Mailroom
+            </span>
+            <span class="val" id="mailroom-price">A$300/yr</span>
+          </div>
+          <div class="sum-line">
+            <span class="lbl">Discount</span>
+            <span class="val" style="color:var(--teal)">−A$120</span>
+          </div>
+          <div class="sum-total-row">
+            <div>
+              <p class="text-xs mb-1" style="color:var(--slate)">Total (GST inclusive)</p>
+              <div class="sum-total-num" id="total-p4">A$1,091</div>
+            </div>
+            <span class="material-icons-round" style="color:var(--teal);font-size:20px!important">info_outline</span>
+          </div>
+
+          <button class="btn-teal w-full justify-center mt-5" style="padding:13px;font-size:14px;border-radius:12px" onclick="goPage(5)">
+            <span class="material-icons-round" style="font-size:18px">shopping_cart</span>
+            Proceed to Checkout
+          </button>
+          <p class="text-center text-xs mt-2 flex items-center justify-center gap-1" style="color:var(--slate)">
+            <span class="material-icons-round" style="font-size:14px;color:var(--teal)">lock</span>Secure checkout · SSL encrypted
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next button bar -->
+  <div class="next-btn-wrap">
+    <div class="next-btn-inner gap-3 flex">
+      <button onclick="goPage(3)" class="btn-outline" style="padding:12px 24px;border-radius:12px;font-size:14px">
+        <span class="material-icons-round" style="font-size:17px">arrow_back</span>Back
+      </button>
+      <button onclick="goPage(5)" class="btn-teal" style="padding:13px 40px;font-size:15px;border-radius:12px">
+        <span class="material-icons-round" style="font-size:18px">arrow_forward</span>Next
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 5 — Accounting Plan
+════════════════════════════════════════════ -->
+<div id="page5" class="screen">
+  <div class="phone-bar">
+    <a href="tel:+61291000480"><span class="material-icons-round">phone</span>Speak to an advisor: +61 2 9100 0480</a>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-steps">
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Plan</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">ASIC</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Mailroom</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step active"><div class="step-circle" style="background:var(--teal);color:var(--ink)">4</div><span class="hidden sm:inline">Accounting</span></div>
+      <div class="prog-sep"></div>
+      <div class="prog-step"><div class="step-circle">5</div><span class="hidden sm:inline">Add-ons</span></div>
+      <div class="prog-sep"></div>
+      <div class="prog-step"><div class="step-circle">6</div><span class="hidden sm:inline">Recap</span></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <button onclick="goPage(4)" class="flex items-center gap-1.5 text-sm font-semibold mb-5 anim d1" style="color:var(--slate);background:none;border:none;cursor:pointer">
+        <span class="material-icons-round" style="font-size:18px!important">arrow_back</span>Back
+      </button>
+      <div class="content-card anim d2">
+        <div class="card-top-bar"></div>
+        <div class="card-body">
+          <div class="flex justify-end mb-3"><button class="guidance-btn"><span class="material-icons-round">help_outline</span>Need Guidance?</button></div>
+
+          <div class="flex items-start gap-3 mb-3">
+            <div class="feat-icon" style="background:rgba(10,191,163,0.10);width:44px;height:44px">
+              <span class="material-icons-round" style="color:var(--teal);font-size:24px!important">trending_up</span>
+            </div>
+            <div>
+              <h2 class="font-display font-bold" style="font-size:clamp(18px,2.8vw,24px);color:var(--ink)">Grow your business with confidence while we take care of the accounting</h2>
+              <p class="text-sm mt-1" style="color:var(--slate)">Get expert financial support, on-time reports, and full Xero access so you can focus on what truly matters: growth.</p>
+            </div>
+          </div>
+
+          <div class="space-y-0 mb-6">
+            <div class="feat-item"><div class="feat-icon" style="background:rgba(10,191,163,0.08)"><span class="material-icons-round" style="color:var(--teal)">person</span></div><div><p class="font-semibold text-sm" style="color:var(--ink)">Dedicated, experienced accountant</p></div></div>
+            <div class="feat-item"><div class="feat-icon" style="background:rgba(59,130,246,0.08)"><span class="material-icons-round" style="color:#3b82f6">alarm_on</span></div><div><p class="font-semibold text-sm" style="color:var(--ink)">Zero missed deadlines</p></div></div>
+            <div class="feat-item"><div class="feat-icon" style="background:rgba(139,92,246,0.08)"><span class="material-icons-round" style="color:#8b5cf6">integration_instructions</span></div><div><p class="font-semibold text-sm" style="color:var(--ink)">Full Xero subscription included</p></div></div>
+          </div>
+
+          <!-- Revenue selector -->
+          <div class="mb-5">
+            <p class="font-semibold text-sm mb-3 flex items-center gap-2" style="color:var(--ink)">
+              Select your estimated yearly revenue for financial year 2026
+              <span class="material-icons-round" style="font-size:17px!important;color:var(--slate)">info</span>
+            </p>
+            <div style="border:1.5px solid var(--border);border-radius:14px;overflow:hidden;background:white">
+              <div onclick="toggleRevDropdown()" style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;font-weight:600;font-size:14px;color:var(--ink)" id="rev-selected-label">
+                <span id="rev-label-text">Select estimated yearly revenue</span>
+                <span class="material-icons-round" id="rev-chevron" style="color:var(--slate);font-size:20px!important;transition:transform 0.2s">expand_more</span>
+              </div>
+              <div id="rev-dropdown" style="display:none;border-top:1px solid var(--border);max-height:220px;overflow-y:auto">
+                <div class="rev-option" onclick="selectRevenue(this,'Up to A$75,000',1800)">Up to A$75,000</div>
+                <div class="rev-option" onclick="selectRevenue(this,'Up to A$250,000',2400)">Up to A$250,000</div>
+                <div class="rev-option" onclick="selectRevenue(this,'Up to A$500,000',3200)">Up to A$500,000</div>
+                <div class="rev-option" onclick="selectRevenue(this,'Up to A$1,250,000',4200)">Up to A$1,250,000</div>
+                <div class="rev-option" onclick="selectRevenue(this,'Up to A$2,000,000',5600)">Up to A$2,000,000</div>
+                <div class="rev-option" onclick="selectRevenue(this,'Up to A$3,500,000',7200)">Up to A$3,500,000</div>
+                <div class="rev-option" onclick="selectRevenue(this,'Up to A$5,000,000',9600)">Up to A$5,000,000</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan chooser (shown after revenue selected) -->
+          <div id="plan-chooser" style="display:none" class="anim d1">
+            <!-- Billing toggle -->
+            <p class="font-semibold text-sm mb-3" style="color:var(--ink)">Choose a plan</p>
+            <div class="flex items-center gap-2 mb-4">
+              <button id="btn-monthly" onclick="setBilling('monthly')" style="padding:7px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:white;color:var(--slate);cursor:pointer;transition:all 0.2s">Monthly</button>
+              <button id="btn-yearly" onclick="setBilling('yearly')" style="padding:7px 18px;border-radius:8px;font-size:13px;font-weight:700;border:none;background:var(--ink);color:white;cursor:pointer;display:flex;align-items:center;gap:5px">
+                Yearly <span style="background:var(--teal);color:var(--ink);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px">2 free months</span>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+              <div class="choice-card selected" id="plan-starter" onclick="selectPlan('starter')">
+                <div class="choice-radio mb-2"></div>
+                <p class="font-bold text-sm" style="color:var(--ink)">Starter</p>
+                <p class="text-xs mb-3" style="color:var(--slate)">Covers all essentials</p>
+                <p class="font-display font-bold" style="font-size:26px;color:var(--ink)" id="starter-price">A$1,800</p>
+                <p class="text-xs" style="color:var(--slate)">/ year</p>
+              </div>
+              <div class="choice-card" id="plan-pro" onclick="selectPlan('pro')">
+                <div class="choice-radio mb-2"></div>
+                <p class="font-bold text-sm" style="color:var(--ink)">Pro</p>
+                <p class="text-xs mb-3" style="color:var(--slate)">Full service accounting</p>
+                <p class="font-display font-bold" style="font-size:26px;color:var(--ink)" id="pro-price">A$3,150</p>
+                <p class="text-xs" style="color:var(--slate)">/ year</p>
+              </div>
+            </div>
+
+            <!-- What's included -->
+            <div class="flex items-center justify-between mb-3">
+              <p class="font-bold text-sm" style="color:var(--ink)">What's included</p>
+              <a href="#" class="text-xs font-semibold flex items-center gap-1" style="color:var(--teal);text-decoration:none"><span class="material-icons-round" style="font-size:15px!important">open_in_new</span>Compare all plans</a>
+            </div>
+            <div id="features-list" class="space-y-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div>
+      <div class="summary-card anim d3">
+        <div class="sum-header">
+          <div><p class="text-xs font-bold uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Your Nexus Package</p><p class="font-display text-white font-bold text-lg mt-0.5">Grow Plan</p></div>
+          <span class="material-icons-round" style="color:var(--teal);font-size:22px!important">trending_up</span>
+        </div>
+        <div class="sum-body">
+          <div class="sum-line"><span class="lbl">ASIC Fee</span><span class="val free">FREE</span></div>
+          <div class="sum-line"><span class="lbl">ASIC Compliance</span><span class="val">A$180/yr</span></div>
+          <div class="sum-line"><span class="lbl">ABN &amp; Tax</span><span class="val free">FREE</span></div>
+          <div class="sum-line" id="p5-mailroom-line"><span class="lbl">Digital Mailroom</span><span class="val" id="p5-mailroom-val">A$300/yr</span></div>
+          <div class="sum-line" id="p5-acct-line" style="display:none"><span class="lbl">Accounting Plan</span><span class="val" id="p5-acct-val">—</span></div>
+          <div class="sum-line"><span class="lbl">Discount</span><span class="val" style="color:var(--teal)" id="p5-discount">−A$120</span></div>
+          <div class="sum-total-row">
+            <div><p class="text-xs mb-1" style="color:var(--slate)">Total (GST inclusive)</p><div class="sum-total-num" id="total-p5">A$1,091</div></div>
+          </div>
+          <button class="btn-teal w-full justify-center mt-5" style="padding:13px;font-size:14px;border-radius:12px" onclick="goPage(6)">
+            <span class="material-icons-round" style="font-size:18px">arrow_forward</span>Continue
+          </button>
+          <p class="text-center text-xs mt-2 flex items-center justify-center gap-1" style="color:var(--slate)"><span class="material-icons-round" style="font-size:14px;color:var(--teal)">lock</span>Secure checkout</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-btn-wrap">
+    <div class="next-btn-inner gap-3 flex">
+      <button onclick="goPage(4)" class="btn-outline" style="padding:12px 24px;border-radius:12px;font-size:14px"><span class="material-icons-round" style="font-size:17px">arrow_back</span>Back</button>
+      <button class="btn-teal" style="padding:13px 40px;font-size:15px;border-radius:12px" onclick="goPage(6)"><span class="material-icons-round" style="font-size:18px">arrow_forward</span>Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 6 — Additional Services
+════════════════════════════════════════════ -->
+<div id="page6" class="screen">
+  <div class="phone-bar"><a href="tel:+61291000480"><span class="material-icons-round">phone</span>Speak to an advisor: +61 2 9100 0480</a></div>
+  <div class="progress-bar-wrap">
+    <div class="progress-steps">
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Plan</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">ASIC</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Mailroom</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Accounting</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step active"><div class="step-circle" style="background:var(--teal);color:var(--ink)">5</div><span class="hidden sm:inline">Add-ons</span></div>
+      <div class="prog-sep"></div>
+      <div class="prog-step"><div class="step-circle">6</div><span class="hidden sm:inline">Recap</span></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <button onclick="goPage(5)" class="flex items-center gap-1.5 text-sm font-semibold mb-5 anim d1" style="color:var(--slate);background:none;border:none;cursor:pointer"><span class="material-icons-round" style="font-size:18px!important">arrow_back</span>Back</button>
+      <div class="content-card anim d2">
+        <div class="card-top-bar"></div>
+        <div class="card-body">
+          <div class="flex justify-end mb-3"><button class="guidance-btn"><span class="material-icons-round">help_outline</span>Need Guidance?</button></div>
+          <h2 class="font-display font-bold mb-2" style="font-size:clamp(18px,2.8vw,24px);color:var(--ink)">Do you need any additional service?</h2>
+          <p class="text-sm mb-6" style="color:var(--slate)">Simply click on a service to add it to your Nexus package.</p>
+
+          <!-- Addon card 1 -->
+          <div class="addon-card" id="addon1" onclick="toggleAddon('addon1',350,'fasttrack')">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <div class="flex items-start gap-3">
+                <div style="width:40px;height:40px;border-radius:12px;background:rgba(10,191,163,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <span class="material-icons-round" style="color:var(--teal);font-size:20px!important">flash_on</span>
+                </div>
+                <div>
+                  <p class="font-bold text-sm mb-1" style="color:var(--ink)">Australian Company Registration Fasttrack Process</p>
+                  <p class="text-xs leading-relaxed mb-3" style="color:var(--slate)">Fast tracked Australian Company Registration for overseas clients from 3 months to 3 days.</p>
+                  <span class="font-bold text-sm" style="color:var(--ink)">A$350 <span style="font-weight:400;color:var(--slate);font-size:12px">one time</span></span>
+                </div>
+              </div>
+              <button class="add-btn" id="addon1-btn" style="white-space:nowrap;background:none;border:none;cursor:pointer;font-weight:700;font-size:13px;color:var(--teal);display:flex;align-items:center;gap:4px;flex-shrink:0;padding:4px 0">
+                <span class="material-icons-round" id="addon1-icon" style="font-size:18px!important">add_circle_outline</span>
+                <span id="addon1-label">Click to add</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="height:1px;background:var(--border);margin:16px 0"></div>
+
+          <!-- Addon card 2 -->
+          <div class="addon-card" id="addon2" onclick="toggleAddon('addon2',7500,'director')">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <div class="flex items-start gap-3">
+                <div style="width:40px;height:40px;border-radius:12px;background:rgba(139,92,246,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <span class="material-icons-round" style="color:#8b5cf6;font-size:20px!important">gavel</span>
+                </div>
+                <div>
+                  <p class="font-bold text-sm mb-1" style="color:var(--ink)">Nominee Local Resident Director</p>
+                  <p class="text-xs leading-relaxed mb-3" style="color:var(--slate)">A non executive director appointment to meet ASIC requirement of at least 1 local director appointed at all times.</p>
+                  <span class="font-bold text-sm" style="color:var(--ink)">A$7,500 <span style="font-weight:400;color:var(--slate);font-size:12px">/ year</span></span>
+                </div>
+              </div>
+              <button class="add-btn" id="addon2-btn" style="white-space:nowrap;background:none;border:none;cursor:pointer;font-weight:700;font-size:13px;color:var(--teal);display:flex;align-items:center;gap:4px;flex-shrink:0;padding:4px 0">
+                <span class="material-icons-round" id="addon2-icon" style="font-size:18px!important">add_circle_outline</span>
+                <span id="addon2-label">Click to add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div>
+      <div class="summary-card anim d3">
+        <div class="sum-header"><div><p class="text-xs font-bold uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Your Nexus Package</p><p class="font-display text-white font-bold text-lg mt-0.5">Grow Plan</p></div><span class="material-icons-round" style="color:var(--teal);font-size:22px!important">trending_up</span></div>
+        <div class="sum-body">
+          <div class="sum-line"><span class="lbl">ASIC Fee</span><span class="val free">FREE</span></div>
+          <div class="sum-line"><span class="lbl">ASIC Compliance</span><span class="val">A$180/yr</span></div>
+          <div class="sum-line"><span class="lbl">ABN &amp; Tax</span><span class="val free">FREE</span></div>
+          <div class="sum-line" id="p6-mailroom-line"><span class="lbl">Digital Mailroom</span><span class="val">A$300/yr</span></div>
+          <div class="sum-line" id="p6-acct-line"><span class="lbl">Accounting Plan</span><span class="val" id="p6-acct-val">A$1,800/yr</span></div>
+          <div class="sum-line" id="p6-addon1-line" style="display:none"><span class="lbl">Fasttrack Registration</span><span class="val">A$350</span></div>
+          <div class="sum-line" id="p6-addon2-line" style="display:none"><span class="lbl">Nominee Director</span><span class="val">A$7,500/yr</span></div>
+          <div class="sum-line"><span class="lbl">Discount</span><span class="val" style="color:var(--teal)">−A$731</span></div>
+          <div class="sum-total-row"><div><p class="text-xs mb-1" style="color:var(--slate)">Total (GST inclusive)</p><div class="sum-total-num" id="total-p6">A$2,280</div></div></div>
+          <button class="btn-teal w-full justify-center mt-5" style="padding:13px;font-size:14px;border-radius:12px" onclick="goPage(7)"><span class="material-icons-round" style="font-size:18px">arrow_forward</span>Continue</button>
+          <p class="text-center text-xs mt-2 flex items-center justify-center gap-1" style="color:var(--slate)"><span class="material-icons-round" style="font-size:14px;color:var(--teal)">lock</span>Secure checkout</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="next-btn-wrap">
+    <div class="next-btn-inner gap-3 flex">
+      <button onclick="goPage(5)" class="btn-outline" style="padding:12px 24px;border-radius:12px;font-size:14px"><span class="material-icons-round" style="font-size:17px">arrow_back</span>Back</button>
+      <button onclick="goPage(7)" class="btn-outline" style="padding:12px 24px;border-radius:12px;font-size:14px;color:var(--slate);border-color:var(--slate)">Skip this</button>
+      <button class="btn-teal" style="padding:13px 32px;font-size:15px;border-radius:12px" onclick="goPage(7)"><span class="material-icons-round" style="font-size:18px">arrow_forward</span>Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 7 — Quick Recap
+════════════════════════════════════════════ -->
+<div id="page7" class="screen">
+  <div class="phone-bar"><a href="tel:+61291000480"><span class="material-icons-round">phone</span>Speak to an advisor: +61 2 9100 0480</a></div>
+  <div class="progress-bar-wrap">
+    <div class="progress-steps">
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Plan</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">ASIC</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Mailroom</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Accounting</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step done"><div class="step-circle"></div><span class="hidden sm:inline">Add-ons</span></div>
+      <div class="prog-sep done"></div>
+      <div class="prog-step active"><div class="step-circle" style="background:var(--teal);color:var(--ink)">6</div><span class="hidden sm:inline">Recap</span></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <button onclick="goPage(6)" class="flex items-center gap-1.5 text-sm font-semibold mb-5 anim d1" style="color:var(--slate);background:none;border:none;cursor:pointer"><span class="material-icons-round" style="font-size:18px!important">arrow_back</span>Back</button>
+
+      <div class="content-card anim d2">
+        <div class="card-top-bar"></div>
+        <div class="card-body">
+          <div class="flex justify-end mb-3"><button class="guidance-btn"><span class="material-icons-round">help_outline</span>Need Guidance?</button></div>
+
+          <!-- Recap header -->
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+            <h2 class="font-display font-bold" style="font-size:clamp(20px,3vw,28px);color:var(--ink)">Here's a quick recap</h2>
+            <div>
+              <p class="font-display font-bold" style="font-size:28px;color:var(--ink);text-align:right" id="recap-total">A$2,280</p>
+              <p class="text-xs text-right" style="color:var(--slate)">(GST inclusive)</p>
+            </div>
+          </div>
+
+          <button class="btn-teal mb-6" style="padding:13px 32px;font-size:14px;border-radius:12px" onclick="goPage(8)">
+            <span class="material-icons-round" style="font-size:18px">shopping_cart</span>Continue to checkout
+          </button>
+
+          <!-- Satisfaction banner -->
+          <div style="background:rgba(10,191,163,0.06);border:1.5px solid rgba(10,191,163,0.2);border-radius:14px;padding:16px 20px;display:flex;align-items:flex-start;gap:12px;margin-bottom:20px">
+            <span class="material-icons-round" style="color:#FF6B6B;font-size:22px!important;flex-shrink:0;margin-top:1px">favorite</span>
+            <div>
+              <p class="font-bold text-sm" style="color:var(--ink)">100% Satisfaction Guaranteed</p>
+              <p class="text-xs mt-0.5" style="color:var(--slate)">We will refund the fees engaged within the first 28 days, should you be unhappy with our service.</p>
+            </div>
+          </div>
+
+          <p class="font-bold text-sm mb-4" style="color:var(--ink)">What's included</p>
+
+          <!-- Recap items -->
+          <div class="recap-item">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:38px;height:38px;border-radius:10px;background:rgba(59,130,246,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="material-icons-round" style="color:#3b82f6;font-size:19px!important">account_balance</span></div>
+              <div class="flex-1">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <p class="font-bold text-sm" style="color:var(--ink)">ASIC Fee</p>
+                  <div style="text-align:right"><p class="font-bold text-sm" style="color:var(--ink)"><span style="text-decoration:line-through;color:#b0c0cc;font-size:12px;margin-right:4px">A$611</span>FREE</p><p style="font-size:11px;color:var(--slate)">one time</p></div>
+                </div>
+                <p class="text-xs mt-0.5" style="color:var(--slate)">CO - Company Registration (ASIC fee) - One off</p>
+              </div>
+            </div>
+            <div class="recap-expand" onclick="toggleRecap(this)">
+              <span style="color:var(--teal);font-size:12px;font-weight:700;cursor:pointer">Show less</span>
+              <div class="recap-detail" style="display:block;margin-top:10px;padding-left:50px">
+                <ul class="space-y-1 text-xs" style="color:var(--slate)">
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>No GST chargeable</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Official Certificate of Registration, ACN</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="recap-item">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:38px;height:38px;border-radius:10px;background:rgba(10,191,163,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="material-icons-round" style="color:var(--teal);font-size:19px!important">verified_user</span></div>
+              <div class="flex-1">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <p class="font-bold text-sm" style="color:var(--ink)">ASIC Compliance Management</p>
+                  <div style="text-align:right"><p class="font-bold text-sm" style="color:var(--ink)">A$300</p><p style="font-size:11px;color:var(--slate)">/ year</p></div>
+                </div>
+                <p class="text-xs mt-0.5" style="color:var(--slate)">CO - ASIC Compliance - Yearly</p>
+              </div>
+            </div>
+            <div class="recap-expand" onclick="toggleRecap(this)">
+              <span style="color:var(--teal);font-size:12px;font-weight:700;cursor:pointer">Show less</span>
+              <div class="recap-detail" style="display:block;margin-top:10px;padding-left:50px">
+                <ul class="space-y-1 text-xs" style="color:var(--slate)">
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Preparation of all company registration documents</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Unlimited advisory from a dedicated Senior ASIC agent</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Mandatory annual solvency resolution &amp; company review statement</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>ASIC regulatory changes throughout the year</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>24/7 access to your company documents</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="recap-item">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:38px;height:38px;border-radius:10px;background:rgba(139,92,246,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="material-icons-round" style="color:#8b5cf6;font-size:19px!important">mark_email_unread</span></div>
+              <div class="flex-1">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <p class="font-bold text-sm" style="color:var(--ink)">Registered Office &amp; Digital Mailroom</p>
+                  <div style="text-align:right"><p class="font-bold text-sm" style="color:var(--ink)">A$300</p><p style="font-size:11px;color:var(--slate)">/ year</p></div>
+                </div>
+                <p class="text-xs mt-0.5" style="color:var(--slate)">Sydney CBD registered address + secure digital mailroom</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="recap-item">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:38px;height:38px;border-radius:10px;background:rgba(251,191,36,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="material-icons-round" style="color:#f59e0b;font-size:19px!important">trending_up</span></div>
+              <div class="flex-1">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <p class="font-bold text-sm" style="color:var(--ink)">Accounting Plan - Starter</p>
+                  <div style="text-align:right"><p class="font-bold text-sm" style="color:var(--ink)">A$1,800</p><p style="font-size:11px;color:var(--slate)">/ year</p></div>
+                </div>
+                <p class="text-xs mt-0.5" style="color:var(--slate)">Hassle-free bookkeeping, accounting tax, and payroll services</p>
+              </div>
+            </div>
+            <div class="recap-expand" onclick="toggleRecap(this)">
+              <span style="color:var(--teal);font-size:12px;font-weight:700;cursor:pointer">Show less</span>
+              <div class="recap-detail" style="display:block;margin-top:10px;padding-left:50px">
+                <ul class="space-y-1 text-xs" style="color:var(--slate)">
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Quarterly bookkeeping &amp; reconciliations</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Quarterly BAS &amp; IAS lodgements</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Company tax return</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Xero &amp; Dext subscription</li>
+                  <li class="flex items-center gap-1.5"><span class="material-icons-round" style="font-size:13px!important;color:var(--teal)">circle</span>Dedicated accountant</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price is inclusive note -->
+          <div style="margin-top:16px;padding:14px 18px;background:var(--paper);border-radius:12px;border:1px solid var(--border)">
+            <p class="text-xs flex items-center gap-1.5" style="color:var(--slate)"><span class="material-icons-round" style="font-size:15px!important;color:var(--teal)">info</span>Price is inclusive of GST</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div>
+      <div class="summary-card anim d3">
+        <div class="sum-header"><div><p class="text-xs font-bold uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Your Nexus Package</p><p class="font-display text-white font-bold text-lg mt-0.5">Grow Plan</p></div><span class="material-icons-round" style="color:var(--teal);font-size:22px!important">trending_up</span></div>
+        <div class="sum-body">
+          <div class="sum-line"><span class="lbl">ASIC Fee</span><span class="val free">FREE</span></div>
+          <div class="sum-line"><span class="lbl">ASIC Compliance</span><span class="val">A$300/yr</span></div>
+          <div class="sum-line"><span class="lbl">ABN &amp; Tax</span><span class="val free">FREE</span></div>
+          <div class="sum-line"><span class="lbl">Registered Office &amp; Mailroom</span><span class="val">A$300/yr</span></div>
+          <div class="sum-line"><span class="lbl">Accounting Plan</span><span class="val">A$1,800/yr</span></div>
+          <div class="sum-line"><span class="lbl">Discount</span><span class="val" style="color:var(--teal)">−A$731</span></div>
+          <div class="sum-total-row"><div><p class="text-xs mb-1" style="color:var(--slate)">Total (GST inclusive)</p><div class="sum-total-num">A$2,280</div></div></div>
+          <button class="btn-teal w-full justify-center mt-5" style="padding:13px;font-size:14px;border-radius:12px" onclick="goPage(8)"><span class="material-icons-round" style="font-size:18px">shopping_cart</span>Continue to checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 8 — Checkout / Details + Payment
+════════════════════════════════════════════ -->
+<div id="page8" class="screen">
+  <div class="phone-bar"><a href="tel:+61291000480"><span class="material-icons-round">phone</span>Speak to an advisor: +61 2 9100 0480</a></div>
+
+  <div style="max-width:1050px;margin:0 auto;padding:36px 24px 80px;display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start" class="checkout-grid">
+    <div>
+      <button onclick="goPage(7)" class="flex items-center gap-1.5 text-sm font-semibold mb-5 anim d1" style="color:var(--slate);background:none;border:none;cursor:pointer"><span class="material-icons-round" style="font-size:18px!important">arrow_back</span>Back</button>
+
+      <!-- Step A: Company Details -->
+      <div class="content-card anim d2 mb-5">
+        <div class="card-top-bar"></div>
+        <div class="card-body">
+          <div class="flex items-center gap-3 mb-5">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:var(--ink);font-weight:800;font-size:15px">1</span></div>
+            <h3 class="font-display font-bold text-xl" style="color:var(--ink)">Company Details</h3>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="field-group" style="grid-column:span 2">
+              <label class="field-label">Proposed Company Name *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">domain</span>
+                <input type="text" class="field-input" placeholder="e.g. Nexus Holdings Pty Ltd">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Director First Name *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">person</span>
+                <input type="text" class="field-input" placeholder="First name" id="first-name">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Director Last Name *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">person_outline</span>
+                <input type="text" class="field-input" placeholder="Last name" id="last-name">
+              </div>
+            </div>
+            <div class="field-group" style="grid-column:span 2">
+              <label class="field-label">Email Address *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">email</span>
+                <input type="email" class="field-input" placeholder="you@company.com" id="email-input">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Phone Number *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">phone</span>
+                <input type="tel" class="field-input" placeholder="+61 4xx xxx xxx">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Date of Birth *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">calendar_today</span>
+                <input type="date" class="field-input">
+              </div>
+            </div>
+            <div class="field-group" style="grid-column:span 2">
+              <label class="field-label">Residential Address *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">location_on</span>
+                <input type="text" class="field-input" placeholder="Street address, suburb, state, postcode">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step B: Business Info -->
+      <div class="content-card anim d3 mb-5">
+        <div class="card-body">
+          <div class="flex items-center gap-3 mb-5">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:var(--ink);font-weight:800;font-size:15px">2</span></div>
+            <h3 class="font-display font-bold text-xl" style="color:var(--ink)">Business Information</h3>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="field-group" style="grid-column:span 2">
+              <label class="field-label">Industry / Business Type *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">business_center</span>
+                <select class="field-input" style="appearance:none;-webkit-appearance:none;cursor:pointer">
+                  <option value="">Select industry</option>
+                  <option>Technology</option><option>Professional Services</option><option>Retail / E-commerce</option>
+                  <option>Construction</option><option>Healthcare</option><option>Finance</option><option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-group" style="grid-column:span 2">
+              <label class="field-label">Business Activity Description *</label>
+              <div class="field-wrap" style="align-items:flex-start">
+                <span class="material-icons-round field-icon" style="margin-top:14px">description</span>
+                <textarea class="field-input" rows="3" placeholder="Briefly describe what your company does..." style="resize:none;padding-top:12px"></textarea>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Expected Annual Revenue</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">attach_money</span>
+                <input type="text" class="field-input" value="Up to A$75,000" readonly style="background:var(--paper)">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Financial Year End</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">event</span>
+                <select class="field-input" style="appearance:none;-webkit-appearance:none;cursor:pointer">
+                  <option>30 June (Standard)</option><option>31 December</option><option>31 March</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step C: Payment -->
+      <div class="content-card anim d4">
+        <div class="card-body">
+          <div class="flex items-center gap-3 mb-5">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:var(--ink);font-weight:800;font-size:15px">3</span></div>
+            <h3 class="font-display font-bold text-xl" style="color:var(--ink)">Payment Details</h3>
+            <div class="flex items-center gap-2 ml-auto">
+              <div style="background:#E5F4FF;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:#1565C0">VISA</div>
+              <div style="background:#f5f5f5;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:#333">MC</div>
+              <div style="background:#003087;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:white">PayPal</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="field-group" style="grid-column:span 2">
+              <label class="field-label">Card Number *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">credit_card</span>
+                <input type="text" class="field-input" placeholder="1234 5678 9012 3456" maxlength="19" id="card-num" oninput="formatCard(this)">
+                <span class="material-icons-round" style="font-size:18px!important;color:var(--slate);margin-right:12px;flex-shrink:0">lock</span>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Expiry Date *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">calendar_today</span>
+                <input type="text" class="field-input" placeholder="MM / YY" maxlength="7" id="expiry" oninput="formatExpiry(this)">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">CVC *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">password</span>
+                <input type="text" class="field-input" placeholder="•••" maxlength="4">
+              </div>
+            </div>
+            <div class="field-group" style="grid-column:span 2">
+              <label class="field-label">Cardholder Name *</label>
+              <div class="field-wrap">
+                <span class="material-icons-round field-icon">badge</span>
+                <input type="text" class="field-input" placeholder="Name as it appears on card">
+              </div>
+            </div>
+          </div>
+
+          <!-- Promo -->
+          <div class="mt-5">
+            <label class="field-label">Promo Code</label>
+            <div style="display:flex;gap:10px">
+              <div class="field-wrap flex-1">
+                <span class="material-icons-round field-icon">local_offer</span>
+                <input type="text" class="field-input" placeholder="Enter code">
+              </div>
+              <button class="btn-outline" style="padding:10px 18px;border-radius:10px;font-size:13px;white-space:nowrap">Apply</button>
+            </div>
+          </div>
+
+          <!-- Terms -->
+          <div style="margin-top:20px;display:flex;align-items:flex-start;gap:10px">
+            <input type="checkbox" id="terms-check" style="width:17px;height:17px;margin-top:2px;accent-color:var(--teal);cursor:pointer">
+            <label for="terms-check" class="text-xs leading-relaxed" style="color:var(--slate);cursor:pointer">
+              I agree to the <a href="#" style="color:var(--teal);font-weight:600">Terms &amp; Conditions</a>, <a href="#" style="color:var(--teal);font-weight:600">Privacy Policy</a>, and authorise recurring charges for subscriptions selected.
+            </label>
+          </div>
+
+          <!-- Submit -->
+          <button onclick="submitPayment()" class="btn-teal w-full justify-center mt-6" style="padding:16px;font-size:16px;border-radius:14px;font-weight:700" id="pay-btn">
+            <span class="material-icons-round" style="font-size:20px">lock</span>
+            Complete Payment — A$2,280
+          </button>
+
+          <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:16px;flex-wrap:wrap">
+            <span class="text-xs flex items-center gap-1" style="color:var(--slate)"><span class="material-icons-round" style="font-size:15px!important;color:var(--teal)">security</span>256-bit SSL encrypted</span>
+            <span class="text-xs flex items-center gap-1" style="color:var(--slate)"><span class="material-icons-round" style="font-size:15px!important;color:var(--teal)">verified_user</span>PCI DSS compliant</span>
+            <span class="text-xs flex items-center gap-1" style="color:var(--slate)"><span class="material-icons-round" style="font-size:15px!important;color:var(--teal)">replay</span>30-day money-back</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div>
+      <div class="summary-card anim d3" style="position:sticky;top:88px">
+        <div class="sum-header"><div><p class="text-xs font-bold uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Order Summary</p><p class="font-display text-white font-bold text-lg mt-0.5">Grow Plan</p></div><span class="material-icons-round" style="color:var(--teal);font-size:22px!important">receipt_long</span></div>
+        <div class="sum-body">
+          <div class="sum-line"><span class="lbl">ASIC Fee</span><span class="val free">FREE</span></div>
+          <div class="sum-line"><span class="lbl">ASIC Compliance</span><span class="val">A$300/yr</span></div>
+          <div class="sum-line"><span class="lbl">ABN &amp; Tax</span><span class="val free">FREE</span></div>
+          <div class="sum-line"><span class="lbl">Digital Mailroom</span><span class="val">A$300/yr</span></div>
+          <div class="sum-line"><span class="lbl">Accounting - Starter</span><span class="val">A$1,800/yr</span></div>
+          <div class="sum-line"><span class="lbl" style="color:var(--teal)">Discount</span><span class="val" style="color:var(--teal)">−A$731</span></div>
+          <div class="sum-total-row"><div><p class="text-xs mb-1" style="color:var(--slate)">Total due today (GST incl.)</p><div class="sum-total-num">A$2,280</div></div></div>
+          <!-- Mini trust -->
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-around">
+            <div style="text-align:center"><span class="material-icons-round" style="color:var(--teal);font-size:20px!important;display:block">verified</span><p style="font-size:10px;color:var(--slate);margin-top:2px">ASIC Agent</p></div>
+            <div style="text-align:center"><span class="material-icons-round" style="color:var(--teal);font-size:20px!important;display:block">security</span><p style="font-size:10px;color:var(--slate);margin-top:2px">ISO 27001</p></div>
+            <div style="text-align:center"><span class="material-icons-round" style="color:var(--teal);font-size:20px!important;display:block">replay</span><p style="font-size:10px;color:var(--slate);margin-top:2px">28-day back</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 9 — Success
+════════════════════════════════════════════ -->
+<div id="page9" class="screen">
+  <div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:40px 24px">
+    <div style="max-width:540px;width:100%;text-align:center">
+      <div style="width:80px;height:80px;border-radius:50%;background:rgba(10,191,163,0.12);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;animation:popIn 0.5s cubic-bezier(0.22,1,0.36,1) both">
+        <span class="material-icons-round" style="font-size:40px!important;color:var(--teal)">check_circle</span>
+      </div>
+      <style>@keyframes popIn{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}</style>
+      <h1 class="font-display font-bold mb-3" style="font-size:36px;color:var(--ink)">Payment Successful!</h1>
+      <p class="mb-2 text-sm" style="color:var(--slate)">Thank you <strong id="success-name" style="color:var(--ink)">there</strong>! Your company registration is underway.</p>
+      <p class="text-sm mb-8" style="color:var(--slate)">A confirmation has been sent to <strong id="success-email" style="color:var(--ink)">your email</strong>. Our team will be in touch within 1 business day.</p>
+
+      <div style="background:white;border-radius:20px;border:1.5px solid var(--border);padding:28px;margin-bottom:24px;text-align:left">
+        <p class="font-bold text-sm mb-4" style="color:var(--ink)">What happens next?</p>
+        <div class="space-y-3">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:var(--ink);font-weight:800;font-size:12px">1</span></div>
+            <div><p class="font-semibold text-sm" style="color:var(--ink)">ASIC Registration (1–3 business days)</p><p class="text-xs mt-0.5" style="color:var(--slate)">We lodge your company registration with ASIC on your behalf.</p></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:var(--ink);font-weight:800;font-size:12px">2</span></div>
+            <div><p class="font-semibold text-sm" style="color:var(--ink)">ACN &amp; ABN Issued</p><p class="text-xs mt-0.5" style="color:var(--slate)">You'll receive your ACN and ABN once approved.</p></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:var(--ink);font-weight:800;font-size:12px">3</span></div>
+            <div><p class="font-semibold text-sm" style="color:var(--ink)">Welcome &amp; Onboarding Call</p><p class="text-xs mt-0.5" style="color:var(--slate)">Your dedicated accountant will reach out to get started.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-teal" style="padding:14px 40px;font-size:15px;border-radius:12px" onclick="showPage('page2')">
+        <span class="material-icons-round" style="font-size:18px">home</span>Back to Home
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Extra styles ═══ -->
+<style>
+  /* Revenue dropdown */
+  .rev-option{padding:12px 18px;font-size:14px;cursor:pointer;color:var(--ink);transition:background 0.15s;border-bottom:1px solid var(--border)}
+  .rev-option:last-child{border-bottom:none}
+  .rev-option:hover,.rev-option.selected{background:rgba(10,191,163,0.07);color:var(--teal);font-weight:600}
+  /* Addon card */
+  .addon-card{padding:20px;border-radius:16px;border:1.5px solid var(--border);transition:all 0.2s;cursor:pointer}
+  .addon-card:hover{border-color:rgba(10,191,163,0.3);background:rgba(10,191,163,0.02)}
+  .addon-card.added{border-color:var(--teal);background:rgba(10,191,163,0.04)}
+  /* Recap items */
+  .recap-item{padding:16px 0;border-bottom:1px solid var(--border)}
+  .recap-item:last-child{border-bottom:none}
+  /* Form fields */
+  .field-group{display:flex;flex-direction:column;gap:6px}
+  .field-label{font-size:12px;font-weight:700;color:var(--slate);letter-spacing:0.03em;text-transform:uppercase}
+  .field-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:12px;background:white;transition:border-color 0.2s;overflow:hidden}
+  .field-wrap:focus-within{border-color:var(--teal);box-shadow:0 0 0 3px rgba(10,191,163,0.10)}
+  .field-icon{font-size:18px!important;color:var(--slate);margin-left:14px;flex-shrink:0}
+  .field-input{flex:1;border:none;outline:none;padding:12px 14px;font-family:inherit;font-size:14px;color:var(--ink);background:transparent}
+  .field-input::placeholder{color:#b0c4cc}
+  @media(max-width:860px){.checkout-grid{grid-template-columns:1fr!important}}
+</style>
+
+
+<script>
+  // ── Global state ──
+  let mailroomSelected = true;
+  let selectedRevenue = '';
+  let selectedPlan = 'starter';
+  let billingCycle = 'yearly';
+  let baseTotal = 1091; // after mailroom
+  let accountingCost = 0;
+  let addon1Added = false;
+  let addon2Added = false;
+
+  const starterPrices = { yearly: 1800, monthly: 175 };
+  const proPrices = { yearly: 3150, monthly: 295 };
+
+  const starterFeatures = [
+    { text: 'Quarterly bookkeeping & reconciliations', included: true },
+    { text: 'Quarterly BAS & IAS lodgements', included: true },
+    { text: 'Company tax return', included: true },
+    { text: 'Xero & Dext subscription', included: true },
+    { text: 'Dedicated accountant', included: true },
+    { text: '2x personal tax returns', included: false },
+    { text: 'Accounts payable & receivable support', included: false },
+    { text: 'Expert tax planning', included: false },
+    { text: 'Priority support', included: false },
+  ];
+
+  const proFeatures = [
+    { text: 'Quarterly bookkeeping & reconciliations', included: true },
+    { text: 'Quarterly BAS & IAS lodgements', included: true },
+    { text: 'Company tax return', included: true },
+    { text: 'Xero & Dext subscription', included: true },
+    { text: 'Dedicated accountant', included: true },
+    { text: '2x personal tax returns', included: true },
+    { text: 'Accounts payable & receivable support', included: true },
+    { text: 'Expert tax planning', included: true },
+    { text: 'Priority support', included: true },
+  ];
+
+  // ── Loader → Page 3 ──
+  function startLoader() {
+    const loader = document.getElementById('loader');
+    loader.classList.add('show');
+    const steps = ['ls1','ls2','ls3'];
+    const msgs = ['Verifying selected plan...','Loading ASIC requirements...','Setting up your package...'];
+    steps.forEach((id, i) => {
+      setTimeout(() => {
+        document.getElementById(id).classList.add('done');
+        document.getElementById('loader-msg').textContent = msgs[i];
+      }, 400 + i * 450);
+    });
+    setTimeout(() => { loader.classList.remove('show'); showPage('page3'); }, 2200);
+  }
+
+  // ── Page navigation ──
+  function goPage(n) { showPage('page'+n); }
+
+  function showPage(id) {
+    document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+    const target = document.getElementById(id);
+    target.style.display = 'block';
+    setTimeout(() => target.classList.add('active'), 10);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  // ── Mailroom toggle ──
+  function selectMailroom(choice) {
+    const yes = document.getElementById('choice-yes');
+    const no  = document.getElementById('choice-no');
+    const totalEl = document.getElementById('total-p4');
+    const priceEl = document.getElementById('mailroom-price');
+    const line = document.getElementById('mailroom-line');
+    if (choice === 'yes') {
+      yes.classList.add('selected'); no.classList.remove('selected');
+      mailroomSelected = true; baseTotal = 1091;
+      priceEl.textContent = 'A$300/yr'; line.style.opacity = '1';
+      animatePrice(totalEl, 'A$1,091');
+    } else {
+      no.classList.add('selected'); yes.classList.remove('selected');
+      mailroomSelected = false; baseTotal = 791;
+      priceEl.textContent = '—'; line.style.opacity = '0.4';
+      animatePrice(totalEl, 'A$791');
+    }
+  }
+
+  function animatePrice(el, newVal) {
+    el.classList.remove('price-change'); void el.offsetWidth;
+    el.textContent = newVal; el.classList.add('price-change');
+  }
+
+  // ── Revenue selector ──
+  function toggleRevDropdown() {
+    const dd = document.getElementById('rev-dropdown');
+    const ch = document.getElementById('rev-chevron');
+    const open = dd.style.display !== 'none';
+    dd.style.display = open ? 'none' : 'block';
+    ch.style.transform = open ? 'rotate(0)' : 'rotate(180deg)';
+  }
+
+  function selectRevenue(el, label, starterPrice) {
+    document.querySelectorAll('.rev-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('rev-label-text').textContent = label;
+    document.getElementById('rev-dropdown').style.display = 'none';
+    document.getElementById('rev-chevron').style.transform = 'rotate(0)';
+    selectedRevenue = label;
+    // Update plan prices
+    starterPrices.yearly = starterPrice;
+    starterPrices.monthly = Math.round(starterPrice / 10);
+    proPrices.yearly = Math.round(starterPrice * 1.75);
+    proPrices.monthly = Math.round(starterPrice * 1.75 / 10);
+    document.getElementById('plan-chooser').style.display = 'block';
+    updatePlanDisplay();
+    updateP5Total();
+  }
+
+  function setBilling(type) {
+    billingCycle = type;
+    const monthly = document.getElementById('btn-monthly');
+    const yearly = document.getElementById('btn-yearly');
+    if (type === 'yearly') {
+      yearly.style.background = 'var(--ink)'; yearly.style.color = 'white'; yearly.style.border = 'none';
+      monthly.style.background = 'white'; monthly.style.color = 'var(--slate)'; monthly.style.border = '1.5px solid var(--border)';
+    } else {
+      monthly.style.background = 'var(--ink)'; monthly.style.color = 'white'; monthly.style.border = 'none';
+      yearly.style.background = 'white'; yearly.style.color = 'var(--slate)'; yearly.style.border = '1.5px solid var(--border)';
+    }
+    updatePlanDisplay();
+    updateP5Total();
+  }
+
+  function updatePlanDisplay() {
+    const sp = starterPrices[billingCycle];
+    const pp = proPrices[billingCycle];
+    const suffix = billingCycle === 'yearly' ? '/ year' : '/ month';
+    document.getElementById('starter-price').textContent = 'A$' + sp.toLocaleString();
+    document.getElementById('pro-price').textContent = 'A$' + pp.toLocaleString();
+    renderFeatures();
+  }
+
+  function selectPlan(plan) {
+    selectedPlan = plan;
+    document.getElementById('plan-starter').classList.toggle('selected', plan === 'starter');
+    document.getElementById('plan-pro').classList.toggle('selected', plan === 'pro');
+    renderFeatures();
+    updateP5Total();
+  }
+
+  function renderFeatures() {
+    const list = document.getElementById('features-list');
+    const features = selectedPlan === 'starter' ? starterFeatures : proFeatures;
+    list.innerHTML = features.map(f => `
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+        <span class="material-icons-round" style="font-size:17px!important;color:${f.included ? 'var(--teal)' : '#d1d9e0'}">${f.included ? 'check' : 'close'}</span>
+        <span style="color:${f.included ? 'var(--ink)' : '#b0c4cc'}">${f.text}</span>
+      </div>`).join('');
+  }
+
+  function updateP5Total() {
+    const prices = selectedPlan === 'starter' ? starterPrices : proPrices;
+    accountingCost = prices[billingCycle];
+    const total = baseTotal + accountingCost;
+    document.getElementById('p5-acct-line').style.display = 'flex';
+    animatePrice(document.getElementById('p5-acct-val'), 'A$' + accountingCost.toLocaleString() + (billingCycle==='yearly'?'/yr':'/mo'));
+    animatePrice(document.getElementById('total-p5'), 'A$' + total.toLocaleString());
+    // Sync page 6
+    document.getElementById('p6-acct-val').textContent = 'A$' + accountingCost.toLocaleString() + '/yr';
+    recalcP6Total();
+  }
+
+  // ── Addons ──
+  function toggleAddon(id, price, key) {
+    const card = document.getElementById(id);
+    const btn = document.getElementById(id+'-btn');
+    const icon = document.getElementById(id+'-icon');
+    const label = document.getElementById(id+'-label');
+    const isAdded = card.classList.contains('added');
+    card.classList.toggle('added');
+    if (!isAdded) {
+      icon.textContent = 'check_circle';
+      icon.style.color = 'var(--teal)';
+      label.textContent = 'Added ✓';
+      btn.style.color = 'var(--teal)';
+      if (key==='fasttrack') { addon1Added=true; document.getElementById('p6-addon1-line').style.display='flex'; }
+      if (key==='director') { addon2Added=true; document.getElementById('p6-addon2-line').style.display='flex'; }
+    } else {
+      icon.textContent = 'add_circle_outline';
+      icon.style.color = 'var(--teal)';
+      label.textContent = 'Click to add';
+      if (key==='fasttrack') { addon1Added=false; document.getElementById('p6-addon1-line').style.display='none'; }
+      if (key==='director') { addon2Added=false; document.getElementById('p6-addon2-line').style.display='none'; }
+    }
+    recalcP6Total();
+  }
+
+  function recalcP6Total() {
+    let t = baseTotal + accountingCost;
+    if (addon1Added) t += 350;
+    if (addon2Added) t += 7500;
+    animatePrice(document.getElementById('total-p6'), 'A$' + t.toLocaleString());
+    document.getElementById('recap-total').textContent = 'A$' + t.toLocaleString();
+  }
+
+  // ── Accordion ──
+  function toggleAccordion(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.chevron');
+    body.classList.toggle('open');
+    if(chevron) chevron.classList.toggle('open');
+  }
+
+  // ── Recap expand/collapse ──
+  function toggleRecap(el) {
+    const detail = el.querySelector('.recap-detail');
+    const label = el.querySelector('span');
+    if (detail.style.display === 'none' || detail.style.display === '') {
+      detail.style.display = 'block'; label.textContent = 'Show less';
+    } else {
+      detail.style.display = 'none'; label.textContent = 'Show more';
+    }
+  }
+
+  // ── Card formatting ──
+  function formatCard(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,16);
+    el.value = v.replace(/(.{4})/g,'$1 ').trim();
+  }
+  function formatExpiry(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,4);
+    if (v.length >= 2) v = v.substring(0,2)+' / '+v.substring(2);
+    el.value = v;
+  }
+
+  // ── Submit payment ──
+  function submitPayment() {
+    const first = document.getElementById('first-name').value.trim();
+    const email = document.getElementById('email-input').value.trim();
+    const btn = document.getElementById('pay-btn');
+    btn.innerHTML = '<span class="material-icons-round" style="font-size:20px;animation:spin 0.8s linear infinite">autorenew</span> Processing...';
+    btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('success-name').textContent = first || 'there';
+      document.getElementById('success-email').textContent = email || 'your email';
+      showPage('page9');
+    }, 2000);
+  }
+
+  // Spin animation
+  const style = document.createElement('style');
+  style.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
+  document.head.appendChild(style);
+</script>
+</body>
+</html>
